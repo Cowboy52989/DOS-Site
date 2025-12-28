@@ -61,7 +61,7 @@
                 0 20px 60px rgba(0, 0, 0, 0.8),
                 0 0 40px rgba(139, 0, 0, 0.3),
                 inset 0 0 80px rgba(139, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 650px;
             width: 100%;
             padding: 40px;
             text-align: center;
@@ -70,17 +70,17 @@
         }
         
         .logo {
-            width: 120px;
-            height: 120px;
+            width: 160px;
+            height: 160px;
             margin: 0 auto 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 3px solid rgba(139, 0, 0, 0.5);
+            border: 4px solid rgba(139, 0, 0, 0.6);
             box-shadow: 
-                0 0 20px rgba(139, 0, 0, 0.4),
+                0 0 30px rgba(139, 0, 0, 0.5),
                 inset 0 0 20px rgba(0, 0, 0, 0.5);
             background: #000;
         }
@@ -95,7 +95,7 @@
             font-family: 'Bebas Neue', 'Teko', sans-serif;
             color: #c0c0c0;
             font-size: 42px;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
             font-weight: 700;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -105,11 +105,19 @@
                 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
         
+        .subtitle {
+            color: #808080;
+            font-size: 16px;
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+        
         .status {
             display: none;
             padding: 16px;
             border-radius: 8px;
             margin: 24px 0;
+            text-align: left;
             font-size: 16px;
             border: 1px solid;
             background: rgba(0, 0, 0, 0.5);
@@ -131,14 +139,6 @@
             display: block;
         }
         
-        .status.loading {
-            background: rgba(40, 40, 40, 0.5);
-            color: #c0c0c0;
-            border-color: rgba(139, 0, 0, 0.3);
-            box-shadow: 0 0 10px rgba(139, 0, 0, 0.2);
-            display: block;
-        }
-        
         .status.info {
             background: rgba(40, 40, 60, 0.3);
             color: #a0a0d0;
@@ -147,99 +147,9 @@
             display: block;
         }
         
-        .icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        .message {
-            color: #b0b0b0;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-        
-        .code-block {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(139, 0, 0, 0.3);
-            border-radius: 6px;
-            padding: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            color: #c0c0c0;
-            margin: 16px 0;
-            word-break: break-all;
-            text-align: left;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        
-        .button {
-            display: inline-block;
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(80, 0, 0, 0.8) 100%);
-            color: #ffffff;
-            padding: 12px 32px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: 1px solid rgba(139, 0, 0, 0.6);
-            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-        
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 0, 0, 0.6);
-            background: linear-gradient(135deg, rgba(160, 0, 0, 0.9) 0%, rgba(100, 0, 0, 0.9) 100%);
-        }
-        
-        .footer {
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(139, 0, 0, 0.3);
-            color: #808080;
-            font-size: 14px;
-        }
-        
-        .footer a {
-            color: #d08080;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        .footer a:hover {
-            color: #ff6b6b;
-            text-decoration: underline;
-        }
-        
-        .spinner {
-            border: 3px solid rgba(139, 0, 0, 0.3);
-            border-top: 3px solid #8b0000;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Token Management Styles */
-        .form-section {
-            display: none;
-            text-align: left;
-            margin-top: 24px;
-        }
-        
-        .form-section.active {
-            display: block;
-        }
-        
         .form-group {
             margin-bottom: 20px;
+            text-align: left;
         }
         
         .form-group label {
@@ -248,11 +158,23 @@
             font-weight: 600;
             margin-bottom: 8px;
             font-size: 14px;
-            text-align: left;
         }
         
-        .form-group input,
         .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(139, 0, 0, 0.4);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            transition: all 0.2s;
+            background: rgba(0, 0, 0, 0.5);
+            color: #c0c0c0;
+            min-height: 70px;
+            resize: vertical;
+        }
+        
+        .form-group input {
             width: 100%;
             padding: 12px;
             border: 1px solid rgba(139, 0, 0, 0.4);
@@ -272,16 +194,6 @@
             background: rgba(0, 0, 0, 0.7);
         }
         
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: #606060;
-        }
-        
-        .form-group textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
         .form-help {
             font-size: 12px;
             color: #808080;
@@ -290,16 +202,38 @@
         
         .form-help a {
             color: #d08080;
+            text-decoration: none;
         }
         
         .form-help a:hover {
             color: #ff6b6b;
+            text-decoration: underline;
         }
         
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(80, 0, 0, 0.8) 100%);
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(139, 0, 0, 0.6);
+            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            font-size: 15px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 0, 0, 0.6);
+            background: linear-gradient(135deg, rgba(160, 0, 0, 0.9) 0%, rgba(100, 0, 0, 0.9) 100%);
+        }
+        
+        .button.full-width {
+            width: 100%;
         }
         
         .button.secondary {
@@ -324,8 +258,27 @@
             box-shadow: 0 6px 20px rgba(180, 0, 0, 0.6);
         }
         
-        .button.full-width {
-            width: 100%;
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .warning-box {
+            background: rgba(80, 60, 0, 0.3);
+            border: 1px solid rgba(139, 100, 0, 0.5);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 16px 0;
+            font-size: 13px;
+            color: #f0d090;
+            text-align: left;
+        }
+        
+        .warning-box strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #ffa500;
         }
         
         .token-display {
@@ -339,10 +292,14 @@
         
         .token-item {
             margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(139, 0, 0, 0.2);
         }
         
         .token-item:last-child {
             margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
         }
         
         .token-label {
@@ -367,51 +324,6 @@
             letter-spacing: 2px;
         }
         
-        .nav-tabs {
-            display: flex;
-            border-bottom: 2px solid rgba(139, 0, 0, 0.3);
-            margin-bottom: 24px;
-            gap: 8px;
-        }
-        
-        .nav-tab {
-            padding: 12px 24px;
-            background: none;
-            border: none;
-            color: #808080;
-            font-weight: 600;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
-            transition: all 0.2s;
-        }
-        
-        .nav-tab:hover {
-            color: #b0b0b0;
-        }
-        
-        .nav-tab.active {
-            color: #ff6b6b;
-            border-bottom-color: #8b0000;
-        }
-        
-        .warning-box {
-            background: rgba(80, 60, 0, 0.3);
-            border: 1px solid rgba(139, 100, 0, 0.5);
-            border-radius: 8px;
-            padding: 12px;
-            margin: 16px 0;
-            font-size: 13px;
-            color: #f0d090;
-            text-align: left;
-        }
-        
-        .warning-box strong {
-            display: block;
-            margin-bottom: 4px;
-            color: #ffa500;
-        }
-        
         .toggle-visibility {
             background: none;
             border: none;
@@ -426,56 +338,63 @@
         .toggle-visibility:hover {
             color: #ff6b6b;
         }
+        
+        .footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(139, 0, 0, 0.3);
+            color: #808080;
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: #d08080;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer a:hover {
+            color: #ff6b6b;
+            text-decoration: underline;
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.3), transparent);
+            margin: 32px 0;
+        }
+        
+        .saved-tokens-section {
+            display: none;
+        }
+        
+        .saved-tokens-section.active {
+            display: block;
+        }
+        
+        .icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">
-            <img src="https://github.com/user-attachments/assets/ee69a1a7-dea8-45e7-8bda-635c6440b063" alt="DayZ Overwatch Sentinel Logo" onerror="this.parentElement.innerHTML='🎮'">
+            <img src="logo.png" alt="DayZ Overwatch Sentinel" onerror="this.parentElement.innerHTML='🎮'">
         </div>
+        
         <h1>DayZ Overwatch Sentinel</h1>
+        <p class="subtitle">Secure Token Management Dashboard</p>
         
-        <!-- Navigation Tabs -->
-        <div class="nav-tabs" id="navTabs" style="display: none;">
-            <button class="nav-tab active" onclick="switchTab('setup')">Setup</button>
-            <button class="nav-tab" onclick="switchTab('tokens')">Manage Tokens</button>
-        </div>
-        
-        <!-- OAuth2 Redirect States -->
-        <div id="oauthSection">
-            <div id="loadingStatus" class="status loading">
-                <div class="spinner"></div>
-                <strong>Processing authorization...</strong>
-                <p class="message">Please wait while we complete your Discord authorization.</p>
-            </div>
-            
-            <div id="successStatus" class="status success">
-                <div class="icon">✅</div>
-                <strong>Authorization Successful!</strong>
-                <p class="message">You have successfully authorized the Discord bot. You can now close this window and return to Discord.</p>
-            </div>
-            
-            <div id="errorStatus" class="status error">
-                <div class="icon">❌</div>
-                <strong>Authorization Failed</strong>
-                <p class="message" id="errorMessage">An error occurred during authorization. Please try again.</p>
-            </div>
-            
-            <div id="codeDisplay" style="display: none;">
-                <p style="color: #4a5568; margin-bottom: 8px;"><strong>Authorization Code:</strong></p>
-                <div class="code-block" id="authCode"></div>
-                <p style="color: #718096; font-size: 14px; margin-top: 8px;">Copy this code if needed for manual authorization.</p>
-            </div>
-        </div>
-        
-        <!-- Token Setup Form -->
-        <div id="setupSection" class="form-section" style="display: none;">
+        <!-- Token Management Form -->
+        <div id="tokenForm">
             <div class="warning-box">
                 <strong>⚠️ Security Notice</strong>
-                Tokens are stored in your browser's localStorage. Never share your tokens with anyone. This page stores data locally on your device only.
+                Your tokens are stored locally in your browser only. Never share your tokens with anyone.
             </div>
             
-            <form id="tokenForm" onsubmit="saveTokens(event)">
+            <form onsubmit="saveTokens(event)">
                 <div class="form-group">
                     <label for="discordToken">Discord Bot Token *</label>
                     <textarea 
@@ -514,58 +433,54 @@
                     <div class="form-help">Right-click your server icon in Discord and select "Copy ID"</div>
                 </div>
                 
-                <div class="button-group">
-                    <button type="submit" class="button full-width">💾 Save Tokens</button>
-                </div>
+                <button type="submit" class="button full-width">💾 Save Tokens</button>
             </form>
         </div>
         
-        <!-- Token Management Section -->
-        <div id="tokensSection" class="form-section">
-            <div id="noTokensMessage" class="status info">
-                <div class="icon">ℹ️</div>
-                <strong>No Tokens Stored</strong>
-                <p class="message">You haven't saved any tokens yet. Use the Setup tab to add your tokens.</p>
+        <!-- Saved Tokens Display -->
+        <div id="savedTokensSection" class="saved-tokens-section">
+            <div class="section-divider"></div>
+            
+            <div class="status success">
+                <div class="icon">✅</div>
+                <strong>Tokens Saved Successfully</strong>
+                <p style="color: #90ee90; margin-top: 8px; font-size: 14px;">Your tokens are stored securely in your browser.</p>
             </div>
             
-            <div id="tokensDisplay" style="display: none;">
-                <div class="token-display">
-                    <div class="token-item">
-                        <div class="token-label">Discord Bot Token</div>
-                        <div class="token-value token-masked" id="displayDiscordToken">••••••••••••••••</div>
-                        <button class="toggle-visibility" onclick="toggleTokenVisibility('discord')">Show/Hide</button>
-                    </div>
-                    
-                    <div class="token-item" id="githubTokenItem" style="display: none;">
-                        <div class="token-label">GitHub Token</div>
-                        <div class="token-value token-masked" id="displayGithubToken">••••••••••••••••</div>
-                        <button class="toggle-visibility" onclick="toggleTokenVisibility('github')">Show/Hide</button>
-                    </div>
-                    
-                    <div class="token-item" id="nitradoTokenItem" style="display: none;">
-                        <div class="token-label">Nitrado Token</div>
-                        <div class="token-value token-masked" id="displayNitradoToken">••••••••••••••••</div>
-                        <button class="toggle-visibility" onclick="toggleTokenVisibility('nitrado')">Show/Hide</button>
-                    </div>
-                    
-                    <div class="token-item" id="serverUrlItem" style="display: none;">
-                        <div class="token-label">Discord Server ID</div>
-                        <div class="token-value" id="displayServerUrl"></div>
-                    </div>
+            <div class="token-display">
+                <div class="token-item">
+                    <div class="token-label">Discord Bot Token</div>
+                    <div class="token-value token-masked" id="displayDiscordToken">••••••••••••••••</div>
+                    <button class="toggle-visibility" onclick="toggleTokenVisibility('discord')">Show/Hide</button>
                 </div>
                 
-                <div class="button-group">
-                    <button class="button secondary" onclick="editTokens()">✏️ Edit</button>
-                    <button class="button danger" onclick="clearTokens()">🗑️ Clear All</button>
+                <div class="token-item" id="githubTokenItem" style="display: none;">
+                    <div class="token-label">GitHub Token</div>
+                    <div class="token-value token-masked" id="displayGithubToken">••••••••••••••••</div>
+                    <button class="toggle-visibility" onclick="toggleTokenVisibility('github')">Show/Hide</button>
                 </div>
                 
-                <div class="status info" style="display: block; margin-top: 16px;">
-                    <p class="message" style="font-size: 13px;">Last updated: <span id="lastUpdated">Never</span></p>
+                <div class="token-item" id="nitradoTokenItem" style="display: none;">
+                    <div class="token-label">Nitrado Token</div>
+                    <div class="token-value token-masked" id="displayNitradoToken">••••••••••••••••</div>
+                    <button class="toggle-visibility" onclick="toggleTokenVisibility('nitrado')">Show/Hide</button>
+                </div>
+                
+                <div class="token-item" id="serverUrlItem" style="display: none;">
+                    <div class="token-label">Discord Server ID</div>
+                    <div class="token-value" id="displayServerUrl"></div>
                 </div>
             </div>
+            
+            <div class="button-group">
+                <button class="button secondary" onclick="editTokens()">✏️ Edit Tokens</button>
+                <button class="button danger" onclick="clearTokens()">🗑️ Clear All</button>
+            </div>
+            
+            <div class="status info" style="display: block; margin-top: 16px;">
+                <p style="font-size: 13px; color: #a0a0d0;">Last updated: <span id="lastUpdated">Never</span></p>
+            </div>
         </div>
-        
-        <a href="https://github.com/Cowboy52989/Discord-Bot-Project" class="button" style="margin-top: 16px;">Return to GitHub</a>
         
         <div class="footer">
             <p>DayZ Overwatch Sentinel Bot</p>
@@ -581,37 +496,10 @@
             nitrado: false
         };
         
-        // Parse URL parameters
-        function getUrlParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                code: params.get('code'),
-                error: params.get('error'),
-                error_description: params.get('error_description'),
-                state: params.get('state')
-            };
-        }
-        
-        // Switch between tabs
-        function switchTab(tab) {
-            const setupSection = document.getElementById('setupSection');
-            const tokensSection = document.getElementById('tokensSection');
-            const tabs = document.querySelectorAll('.nav-tab');
-            
-            tabs.forEach(t => t.classList.remove('active'));
-            
-            if (tab === 'setup') {
-                setupSection.classList.add('active');
-                tokensSection.classList.remove('active');
-                tabs[0].classList.add('active');
-                loadTokensToForm();
-            } else {
-                setupSection.classList.remove('active');
-                tokensSection.classList.add('active');
-                tabs[1].classList.add('active');
-                displayTokens();
-            }
-        }
+        // Check if tokens exist on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadTokensFromStorage();
+        });
         
         // Save tokens to localStorage
         function saveTokens(event) {
@@ -635,26 +523,37 @@
             try {
                 localStorage.setItem('dos_tokens', JSON.stringify(tokens));
                 
-                // Show success message
-                alert('✅ Tokens saved successfully!');
+                // Display saved tokens
+                displayTokens();
                 
-                // Switch to tokens view
-                switchTab('tokens');
+                // Show saved tokens section
+                document.getElementById('savedTokensSection').classList.add('active');
+                
+                // Scroll to saved section
+                document.getElementById('savedTokensSection').scrollIntoView({ behavior: 'smooth' });
             } catch (e) {
                 alert('❌ Error saving tokens: ' + e.message);
             }
         }
         
-        // Load tokens from localStorage to form
-        function loadTokensToForm() {
+        // Load tokens from localStorage on page load
+        function loadTokensFromStorage() {
             try {
                 const stored = localStorage.getItem('dos_tokens');
                 if (stored) {
                     const tokens = JSON.parse(stored);
+                    
+                    // Populate form
                     document.getElementById('discordToken').value = tokens.discordToken || '';
                     document.getElementById('githubToken').value = tokens.githubToken || '';
                     document.getElementById('nitradoToken').value = tokens.nitradoToken || '';
                     document.getElementById('serverUrl').value = tokens.serverUrl || '';
+                    
+                    // Display tokens
+                    displayTokens();
+                    
+                    // Show saved section
+                    document.getElementById('savedTokensSection').classList.add('active');
                 }
             } catch (e) {
                 console.error('Error loading tokens:', e);
@@ -665,18 +564,9 @@
         function displayTokens() {
             try {
                 const stored = localStorage.getItem('dos_tokens');
-                const noTokensMessage = document.getElementById('noTokensMessage');
-                const tokensDisplay = document.getElementById('tokensDisplay');
-                
-                if (!stored) {
-                    noTokensMessage.style.display = 'block';
-                    tokensDisplay.style.display = 'none';
-                    return;
-                }
+                if (!stored) return;
                 
                 const tokens = JSON.parse(stored);
-                noTokensMessage.style.display = 'none';
-                tokensDisplay.style.display = 'block';
                 
                 // Display Discord token (always present)
                 document.getElementById('displayDiscordToken').textContent = maskToken(tokens.discordToken);
@@ -714,7 +604,6 @@
                 // Display last updated
                 const lastUpdated = new Date(tokens.timestamp).toLocaleString();
                 document.getElementById('lastUpdated').textContent = lastUpdated;
-                
             } catch (e) {
                 console.error('Error displaying tokens:', e);
             }
@@ -750,106 +639,27 @@
         
         // Edit tokens
         function editTokens() {
-            switchTab('setup');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         // Clear all tokens
         function clearTokens() {
             if (confirm('⚠️ Are you sure you want to clear all stored tokens? This action cannot be undone.')) {
                 localStorage.removeItem('dos_tokens');
+                
+                // Clear form
+                document.getElementById('discordToken').value = '';
+                document.getElementById('githubToken').value = '';
+                document.getElementById('nitradoToken').value = '';
+                document.getElementById('serverUrl').value = '';
+                
+                // Hide saved section
+                document.getElementById('savedTokensSection').classList.remove('active');
+                
                 alert('✅ All tokens have been cleared.');
-                displayTokens();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
-        
-        // Export tokens as JSON
-        function exportTokens() {
-            try {
-                const stored = localStorage.getItem('dos_tokens');
-                if (!stored) {
-                    alert('No tokens to export.');
-                    return;
-                }
-                
-                const tokens = JSON.parse(stored);
-                const dataStr = JSON.stringify(tokens, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'dos-tokens-backup.json';
-                link.click();
-                URL.revokeObjectURL(url);
-            } catch (e) {
-                alert('Error exporting tokens: ' + e.message);
-            }
-        }
-        
-        // Handle the OAuth2 redirect
-        function handleOAuthRedirect() {
-            const params = getUrlParams();
-            const loadingStatus = document.getElementById('loadingStatus');
-            const successStatus = document.getElementById('successStatus');
-            const errorStatus = document.getElementById('errorStatus');
-            const codeDisplay = document.getElementById('codeDisplay');
-            const authCode = document.getElementById('authCode');
-            const errorMessage = document.getElementById('errorMessage');
-            const oauthSection = document.getElementById('oauthSection');
-            
-            // Check if this is an OAuth redirect
-            const isOAuthRedirect = params.code || params.error;
-            
-            if (isOAuthRedirect) {
-                // Handle OAuth redirect
-                setTimeout(() => {
-                    loadingStatus.style.display = 'none';
-                    
-                    if (params.error) {
-                        // Handle error case
-                        errorStatus.style.display = 'block';
-                        errorMessage.textContent = params.error_description || 
-                            `Error: ${params.error}. Please try authorizing the bot again.`;
-                    } else if (params.code) {
-                        // Handle success case
-                        successStatus.style.display = 'block';
-                        codeDisplay.style.display = 'block';
-                        authCode.textContent = params.code;
-                        
-                        // Store the code in localStorage
-                        try {
-                            localStorage.setItem('discord_auth_code', params.code);
-                            localStorage.setItem('discord_auth_timestamp', Date.now());
-                        } catch (e) {
-                            console.warn('Could not store auth code in localStorage:', e);
-                        }
-                        
-                        // Post message to parent window if in iframe
-                        if (window.opener) {
-                            window.opener.postMessage({
-                                type: 'discord_auth_success',
-                                code: params.code,
-                                state: params.state
-                            }, '*');
-                        }
-                    }
-                }, 1000);
-            } else {
-                // Not an OAuth redirect - show token management interface
-                oauthSection.style.display = 'none';
-                document.getElementById('navTabs').style.display = 'flex';
-                
-                // Check if tokens exist
-                const hasTokens = localStorage.getItem('dos_tokens');
-                if (hasTokens) {
-                    switchTab('tokens');
-                } else {
-                    document.getElementById('setupSection').style.display = 'block';
-                }
-            }
-        }
-        
-        // Initialize on page load
-        window.addEventListener('DOMContentLoaded', handleOAuthRedirect);
     </script>
 </body>
 </html>
