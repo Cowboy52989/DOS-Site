@@ -376,6 +376,29 @@
             font-size: 32px;
             margin-bottom: 12px;
         }
+        
+        h2 {
+            font-family: 'Bebas Neue', 'Teko', sans-serif;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.4);
+        }
+        
+        select {
+            cursor: pointer;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: rgba(139, 0, 0, 0.7);
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        select option {
+            background: #1a1a1a;
+            color: #c0c0c0;
+            padding: 8px;
+        }
     </style>
 </head>
 <body>
@@ -385,7 +408,7 @@
         </div>
         
         <h1>DayZ Overwatch Sentinel</h1>
-        <p class="subtitle">Secure Token Management Dashboard</p>
+        <p class="subtitle">Mission File Validator & Server Upload Manager</p>
         
         <!-- Token Management Form -->
         <div id="tokenForm">
@@ -406,21 +429,23 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="githubToken">GitHub Personal Access Token (Optional)</label>
+                    <label for="githubToken">GitHub Personal Access Token *</label>
                     <textarea 
                         id="githubToken" 
                         placeholder="Paste your GitHub token here..."
+                        required
                     ></textarea>
-                    <div class="form-help">Get your token from <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings</a></div>
+                    <div class="form-help">Required for mission file validation and PR submissions - Get from <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings</a></div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="nitradoToken">Nitrado API Token (Optional)</label>
+                    <label for="nitradoToken">Nitrado API Token *</label>
                     <textarea 
                         id="nitradoToken" 
                         placeholder="Paste your Nitrado token here..."
+                        required
                     ></textarea>
-                    <div class="form-help">Get your token from <a href="https://server.nitrado.net" target="_blank">Nitrado Server Panel</a></div>
+                    <div class="form-help">Required for FTP uploads to your server - Get from <a href="https://server.nitrado.net" target="_blank">Nitrado Server Panel</a></div>
                 </div>
                 
                 <div class="form-group">
@@ -433,8 +458,91 @@
                     <div class="form-help">Right-click your server icon in Discord and select "Copy ID"</div>
                 </div>
                 
-                <button type="submit" class="button full-width">💾 Save Tokens</button>
+                <button type="submit" class="button full-width">💾 Save Tokens & Continue</button>
             </form>
+        </div>
+        
+        <!-- Repository Selection Section -->
+        <div id="repoSelectionSection" class="saved-tokens-section">
+            <div class="section-divider"></div>
+            
+            <h2 style="color: #c0c0c0; font-size: 24px; margin-bottom: 16px; text-align: center;">📁 Select Mission Files Repository</h2>
+            
+            <div class="warning-box" style="background: rgba(40, 40, 60, 0.3); border-color: rgba(70, 70, 139, 0.5);">
+                <strong>ℹ️ Repository Setup</strong>
+                Choose where your mission files will be stored and validated. You can select an existing repository or create a new one.
+            </div>
+            
+            <div class="form-group">
+                <label>Repository Option</label>
+                <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                    <button class="button secondary" onclick="selectRepoOption('existing')" id="btnExisting" style="flex: 1;">📂 Use Existing</button>
+                    <button class="button secondary" onclick="selectRepoOption('new')" id="btnNew" style="flex: 1;">➕ Create New</button>
+                </div>
+            </div>
+            
+            <!-- Existing Repository Browser -->
+            <div id="existingRepoSection" style="display: none;">
+                <div class="form-group">
+                    <button class="button full-width" onclick="loadGitHubRepos()" id="btnLoadRepos">
+                        🔄 Load My Repositories
+                    </button>
+                </div>
+                
+                <div id="repoListContainer" style="display: none; margin-top: 16px;">
+                    <div class="form-group">
+                        <label for="repoSelect">Select Repository</label>
+                        <select id="repoSelect" style="width: 100%; padding: 12px; border: 1px solid rgba(139, 0, 0, 0.4); border-radius: 8px; background: rgba(0, 0, 0, 0.5); color: #c0c0c0; font-size: 14px; font-family: 'Courier New', monospace;">
+                            <option value="">-- Select a repository --</option>
+                        </select>
+                        <div class="form-help" id="repoCount"></div>
+                    </div>
+                    
+                    <div id="repoDetails" style="display: none; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(139, 0, 0, 0.3); border-radius: 8px; padding: 12px; margin-top: 12px;">
+                        <div style="font-size: 13px; color: #a0a0a0;">
+                            <div style="margin-bottom: 8px;"><strong style="color: #c0c0c0;">Repository:</strong> <span id="repoName"></span></div>
+                            <div style="margin-bottom: 8px;"><strong style="color: #c0c0c0;">Owner:</strong> <span id="repoOwner"></span></div>
+                            <div style="margin-bottom: 8px;"><strong style="color: #c0c0c0;">Default Branch:</strong> <span id="repoBranch"></span></div>
+                            <div><strong style="color: #c0c0c0;">Full Name:</strong> <span id="repoFullName" style="font-family: 'Courier New', monospace; color: #d08080;"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- New Repository Creation -->
+            <div id="newRepoSection" style="display: none;">
+                <div class="form-group">
+                    <label for="newRepoName">New Repository Name *</label>
+                    <input 
+                        type="text" 
+                        id="newRepoName" 
+                        placeholder="my-dayz-missions"
+                        pattern="[a-zA-Z0-9._-]+"
+                    />
+                    <div class="form-help">Repository name can only contain letters, numbers, hyphens, underscores, and periods</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newRepoDescription">Description (Optional)</label>
+                    <input 
+                        type="text" 
+                        id="newRepoDescription" 
+                        placeholder="DayZ mission files for my server"
+                    />
+                </div>
+                
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="newRepoPrivate" style="width: auto; margin: 0;">
+                        <span>Make repository private</span>
+                    </label>
+                    <div class="form-help">Private repositories are only visible to you and collaborators</div>
+                </div>
+            </div>
+            
+            <button class="button full-width" onclick="saveRepositorySelection()" style="margin-top: 24px;">
+                ✅ Save Repository Selection
+            </button>
         </div>
         
         <!-- Saved Tokens Display -->
@@ -454,13 +562,13 @@
                     <button class="toggle-visibility" onclick="toggleTokenVisibility('discord')">Show/Hide</button>
                 </div>
                 
-                <div class="token-item" id="githubTokenItem" style="display: none;">
+                <div class="token-item">
                     <div class="token-label">GitHub Token</div>
                     <div class="token-value token-masked" id="displayGithubToken">••••••••••••••••</div>
                     <button class="toggle-visibility" onclick="toggleTokenVisibility('github')">Show/Hide</button>
                 </div>
                 
-                <div class="token-item" id="nitradoTokenItem" style="display: none;">
+                <div class="token-item">
                     <div class="token-label">Nitrado Token</div>
                     <div class="token-value token-masked" id="displayNitradoToken">••••••••••••••••</div>
                     <button class="toggle-visibility" onclick="toggleTokenVisibility('nitrado')">Show/Hide</button>
@@ -474,6 +582,7 @@
             
             <div class="button-group">
                 <button class="button secondary" onclick="editTokens()">✏️ Edit Tokens</button>
+                <button class="button secondary" onclick="showRepositorySelection()">📁 Configure Repository</button>
                 <button class="button danger" onclick="clearTokens()">🗑️ Clear All</button>
             </div>
             
@@ -513,9 +622,19 @@
                 timestamp: new Date().toISOString()
             };
             
-            // Validate Discord token is provided
+            // Validate all required tokens
             if (!tokens.discordToken) {
-                alert('Discord Bot Token is required!');
+                alert('❌ Discord Bot Token is required!');
+                return;
+            }
+            
+            if (!tokens.githubToken) {
+                alert('❌ GitHub Token is required for mission file validation and PR submissions!');
+                return;
+            }
+            
+            if (!tokens.nitradoToken) {
+                alert('❌ Nitrado Token is required for FTP uploads to your server!');
                 return;
             }
             
@@ -554,6 +673,13 @@
                     
                     // Show saved section
                     document.getElementById('savedTokensSection').classList.add('active');
+                    
+                    // Check if repository is already selected
+                    const repoConfig = localStorage.getItem('dos_repo_config');
+                    if (repoConfig) {
+                        document.getElementById('repoSelectionSection').classList.add('active');
+                        loadSavedRepoConfig();
+                    }
                 }
             } catch (e) {
                 console.error('Error loading tokens:', e);
@@ -572,25 +698,13 @@
                 document.getElementById('displayDiscordToken').textContent = maskToken(tokens.discordToken);
                 document.getElementById('displayDiscordToken').dataset.token = tokens.discordToken;
                 
-                // Display GitHub token if present
-                const githubItem = document.getElementById('githubTokenItem');
-                if (tokens.githubToken) {
-                    githubItem.style.display = 'block';
-                    document.getElementById('displayGithubToken').textContent = maskToken(tokens.githubToken);
-                    document.getElementById('displayGithubToken').dataset.token = tokens.githubToken;
-                } else {
-                    githubItem.style.display = 'none';
-                }
+                // Display GitHub token (always present)
+                document.getElementById('displayGithubToken').textContent = maskToken(tokens.githubToken);
+                document.getElementById('displayGithubToken').dataset.token = tokens.githubToken;
                 
-                // Display Nitrado token if present
-                const nitradoItem = document.getElementById('nitradoTokenItem');
-                if (tokens.nitradoToken) {
-                    nitradoItem.style.display = 'block';
-                    document.getElementById('displayNitradoToken').textContent = maskToken(tokens.nitradoToken);
-                    document.getElementById('displayNitradoToken').dataset.token = tokens.nitradoToken;
-                } else {
-                    nitradoItem.style.display = 'none';
-                }
+                // Display Nitrado token (always present)
+                document.getElementById('displayNitradoToken').textContent = maskToken(tokens.nitradoToken);
+                document.getElementById('displayNitradoToken').dataset.token = tokens.nitradoToken;
                 
                 // Display server URL if present
                 const serverUrlItem = document.getElementById('serverUrlItem');
@@ -642,10 +756,17 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
+        // Show repository selection section
+        function showRepositorySelection() {
+            document.getElementById('repoSelectionSection').classList.add('active');
+            document.getElementById('repoSelectionSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
         // Clear all tokens
         function clearTokens() {
             if (confirm('⚠️ Are you sure you want to clear all stored tokens? This action cannot be undone.')) {
                 localStorage.removeItem('dos_tokens');
+                localStorage.removeItem('dos_repo_config');
                 
                 // Clear form
                 document.getElementById('discordToken').value = '';
@@ -655,9 +776,213 @@
                 
                 // Hide saved section
                 document.getElementById('savedTokensSection').classList.remove('active');
+                document.getElementById('repoSelectionSection').classList.remove('active');
                 
                 alert('✅ All tokens have been cleared.');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        // Repository Selection Functions
+        let currentRepoOption = null;
+        let userRepos = [];
+        
+        function selectRepoOption(option) {
+            currentRepoOption = option;
+            
+            const btnExisting = document.getElementById('btnExisting');
+            const btnNew = document.getElementById('btnNew');
+            const existingSection = document.getElementById('existingRepoSection');
+            const newSection = document.getElementById('newRepoSection');
+            
+            // Reset button states
+            btnExisting.style.background = 'rgba(60, 60, 60, 0.6)';
+            btnNew.style.background = 'rgba(60, 60, 60, 0.6)';
+            
+            if (option === 'existing') {
+                btnExisting.style.background = 'linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(80, 0, 0, 0.8) 100%)';
+                existingSection.style.display = 'block';
+                newSection.style.display = 'none';
+            } else {
+                btnNew.style.background = 'linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(80, 0, 0, 0.8) 100%)';
+                existingSection.style.display = 'none';
+                newSection.style.display = 'block';
+            }
+        }
+        
+        async function loadGitHubRepos() {
+            const btnLoadRepos = document.getElementById('btnLoadRepos');
+            btnLoadRepos.disabled = true;
+            btnLoadRepos.textContent = '⏳ Loading...';
+            
+            try {
+                const stored = localStorage.getItem('dos_tokens');
+                if (!stored) {
+                    alert('❌ No GitHub token found. Please save your tokens first.');
+                    return;
+                }
+                
+                const tokens = JSON.parse(stored);
+                const githubToken = tokens.githubToken;
+                
+                // Fetch user's repositories from GitHub API
+                const response = await fetch('https://api.github.com/user/repos?per_page=100&sort=updated', {
+                    headers: {
+                        'Authorization': `token ${githubToken}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`GitHub API error: ${response.status}`);
+                }
+                
+                userRepos = await response.json();
+                
+                const repoSelect = document.getElementById('repoSelect');
+                repoSelect.innerHTML = '<option value="">-- Select a repository --</option>';
+                
+                userRepos.forEach(repo => {
+                    const option = document.createElement('option');
+                    option.value = repo.full_name;
+                    option.textContent = `${repo.full_name} ${repo.private ? '🔒' : '🌐'}`;
+                    option.dataset.repoData = JSON.stringify({
+                        name: repo.name,
+                        owner: repo.owner.login,
+                        fullName: repo.full_name,
+                        defaultBranch: repo.default_branch,
+                        private: repo.private
+                    });
+                    repoSelect.appendChild(option);
+                });
+                
+                document.getElementById('repoListContainer').style.display = 'block';
+                document.getElementById('repoCount').textContent = `Found ${userRepos.length} repositories`;
+                
+                // Add change event listener
+                repoSelect.onchange = function() {
+                    const selected = this.options[this.selectedIndex];
+                    if (selected.value) {
+                        const repoData = JSON.parse(selected.dataset.repoData);
+                        document.getElementById('repoName').textContent = repoData.name;
+                        document.getElementById('repoOwner').textContent = repoData.owner;
+                        document.getElementById('repoBranch').textContent = repoData.defaultBranch;
+                        document.getElementById('repoFullName').textContent = repoData.fullName;
+                        document.getElementById('repoDetails').style.display = 'block';
+                    } else {
+                        document.getElementById('repoDetails').style.display = 'none';
+                    }
+                };
+                
+                btnLoadRepos.textContent = '✅ Repositories Loaded';
+                btnLoadRepos.style.background = 'rgba(0, 80, 0, 0.6)';
+                
+            } catch (error) {
+                console.error('Error loading repositories:', error);
+                alert('❌ Error loading repositories: ' + error.message);
+                btnLoadRepos.disabled = false;
+                btnLoadRepos.textContent = '🔄 Load My Repositories';
+            }
+        }
+        
+        async function saveRepositorySelection() {
+            try {
+                let repoConfig = {};
+                
+                if (currentRepoOption === 'existing') {
+                    const repoSelect = document.getElementById('repoSelect');
+                    const selected = repoSelect.options[repoSelect.selectedIndex];
+                    
+                    if (!selected.value) {
+                        alert('❌ Please select a repository');
+                        return;
+                    }
+                    
+                    repoConfig = {
+                        type: 'existing',
+                        ...JSON.parse(selected.dataset.repoData)
+                    };
+                    
+                } else if (currentRepoOption === 'new') {
+                    const repoName = document.getElementById('newRepoName').value.trim();
+                    
+                    if (!repoName) {
+                        alert('❌ Please enter a repository name');
+                        return;
+                    }
+                    
+                    // Validate repository name
+                    if (!/^[a-zA-Z0-9._-]+$/.test(repoName)) {
+                        alert('❌ Repository name can only contain letters, numbers, hyphens, underscores, and periods');
+                        return;
+                    }
+                    
+                    const description = document.getElementById('newRepoDescription').value.trim();
+                    const isPrivate = document.getElementById('newRepoPrivate').checked;
+                    
+                    // Create the repository via GitHub API
+                    const stored = localStorage.getItem('dos_tokens');
+                    const tokens = JSON.parse(stored);
+                    
+                    const createResponse = await fetch('https://api.github.com/user/repos', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `token ${tokens.githubToken}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: repoName,
+                            description: description || 'DayZ mission files managed by Overwatch Sentinel',
+                            private: isPrivate,
+                            auto_init: true
+                        })
+                    });
+                    
+                    if (!createResponse.ok) {
+                        const errorData = await createResponse.json();
+                        throw new Error(errorData.message || 'Failed to create repository');
+                    }
+                    
+                    const newRepo = await createResponse.json();
+                    
+                    repoConfig = {
+                        type: 'new',
+                        name: newRepo.name,
+                        owner: newRepo.owner.login,
+                        fullName: newRepo.full_name,
+                        defaultBranch: newRepo.default_branch || 'main',
+                        private: newRepo.private
+                    };
+                    
+                    alert('✅ Repository created successfully!');
+                    
+                } else {
+                    alert('❌ Please select an option (Existing or Create New)');
+                    return;
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('dos_repo_config', JSON.stringify(repoConfig));
+                
+                alert(`✅ Repository configuration saved!\n\nRepository: ${repoConfig.fullName}\nBranch: ${repoConfig.defaultBranch}\n\nYou can now use Discord commands to upload mission files.`);
+                
+            } catch (error) {
+                console.error('Error saving repository:', error);
+                alert('❌ Error: ' + error.message);
+            }
+        }
+        
+        function loadSavedRepoConfig() {
+            try {
+                const repoConfig = JSON.parse(localStorage.getItem('dos_repo_config'));
+                if (repoConfig) {
+                    // Show a summary of saved configuration
+                    // This could be enhanced to show the saved config in the UI
+                    console.log('Saved repository configuration:', repoConfig);
+                }
+            } catch (e) {
+                console.error('Error loading repo config:', e);
             }
         }
     </script>
