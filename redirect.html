@@ -470,6 +470,28 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="nitradoServerId">Nitrado Server ID *</label>
+                    <input 
+                        type="number" 
+                        id="nitradoServerId" 
+                        placeholder="Enter your Nitrado server ID..."
+                        required
+                    />
+                    <div class="form-help">Find this in your Nitrado server panel URL (e.g., server.nitrado.net/eng/gameserver/<strong>1234567</strong>)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serverMap">Server Map *</label>
+                    <select id="serverMap" required>
+                        <option value="">-- Select your server's map --</option>
+                        <option value="Chernarus">Chernarus</option>
+                        <option value="Livonia">Livonia</option>
+                        <option value="Sakhal">Sakhal</option>
+                    </select>
+                    <div class="form-help">Select which map your DayZ server is running (console-only maps)</div>
+                </div>
+                
+                <div class="form-group">
                     <label for="serverUrl">Discord Server/Guild ID (Optional)</label>
                     <input 
                         type="text" 
@@ -479,12 +501,32 @@
                     <div class="form-help">Right-click your server icon in Discord and select "Copy ID"</div>
                 </div>
                 
-                <button type="submit" class="button full-width">💾 Save Tokens & Continue</button>
+                <button type="submit" class="button full-width">💾 Save Configuration & Continue</button>
             </form>
         </div>
         
+        <!-- File Upload Section (shown after tokens saved) -->
+        <div id="fileUploadSection" class="saved-tokens-section" style="display: none;">
+            <div class="section-divider"></div>
+            
+            <h2 style="color: #c0c0c0; font-size: 24px; margin-bottom: 16px; text-align: center;">📤 Upload Mission Files</h2>
+            
+            <div class="form-group">
+                <label for="missionFileUpload">Select Mission File (XML or JSON)</label>
+                <input 
+                    type="file" 
+                    id="missionFileUpload" 
+                    accept=".xml,.json"
+                    onchange="handleFileUpload(event)"
+                />
+                <div class="form-help">Upload your mission file for validation. You can also use <code>/upload</code> command in Discord.</div>
+            </div>
+            
+            <div id="uploadStatus" style="display: none; padding: 12px; border-radius: 8px; margin-top: 12px;"></div>
+        </div>
+        
         <!-- Repository Selection Section -->
-        <div id="repoSelectionSection" class="saved-tokens-section">
+        <div id="repoSelectionSection" class="saved-tokens-section" style="display: none;">
             <div class="section-divider"></div>
             
             <h2 style="color: #c0c0c0; font-size: 24px; margin-bottom: 16px; text-align: center;">📁 Select Mission Files Repository</h2>
@@ -595,6 +637,16 @@
                     <button class="toggle-visibility" onclick="toggleTokenVisibility('nitrado')">Show/Hide</button>
                 </div>
                 
+                <div class="token-item">
+                    <div class="token-label">Nitrado Server ID</div>
+                    <div class="token-value" id="displayNitradoServerId"></div>
+                </div>
+                
+                <div class="token-item">
+                    <div class="token-label">Server Map</div>
+                    <div class="token-value" id="displayServerMap"></div>
+                </div>
+                
                 <div class="token-item" id="serverUrlItem" style="display: none;">
                     <div class="token-label">Discord Server ID</div>
                     <div class="token-value" id="displayServerUrl"></div>
@@ -639,11 +691,13 @@
                 discordToken: document.getElementById('discordToken').value.trim(),
                 githubToken: document.getElementById('githubToken').value.trim(),
                 nitradoToken: document.getElementById('nitradoToken').value.trim(),
+                nitradoServerId: document.getElementById('nitradoServerId').value.trim(),
+                serverMap: document.getElementById('serverMap').value,
                 serverUrl: document.getElementById('serverUrl').value.trim(),
                 timestamp: new Date().toISOString()
             };
             
-            // Validate all required tokens
+            // Validate all required fields
             if (!tokens.discordToken) {
                 alert('❌ Discord Bot Token is required!');
                 return;
@@ -659,6 +713,17 @@
                 return;
             }
             
+            if (!tokens.nitradoServerId) {
+                alert('❌ Nitrado Server ID is required!');
+                return;
+            }
+            
+            if (!tokens.serverMap) {
+                alert('❌ Server Map selection is required!');
+                return;
+            }                return;
+            }
+            
             // Save to localStorage
             try {
                 localStorage.setItem('dos_tokens', JSON.stringify(tokens));
@@ -666,8 +731,9 @@
                 // Display saved tokens
                 displayTokens();
                 
-                // Show saved tokens section
+                // Show saved tokens section and file upload section
                 document.getElementById('savedTokensSection').classList.add('active');
+                document.getElementById('fileUploadSection').style.display = 'block';
                 
                 // Scroll to saved section
                 document.getElementById('savedTokensSection').scrollIntoView({ behavior: 'smooth' });
@@ -687,13 +753,16 @@
                     document.getElementById('discordToken').value = tokens.discordToken || '';
                     document.getElementById('githubToken').value = tokens.githubToken || '';
                     document.getElementById('nitradoToken').value = tokens.nitradoToken || '';
+                    document.getElementById('nitradoServerId').value = tokens.nitradoServerId || '';
+                    document.getElementById('serverMap').value = tokens.serverMap || '';
                     document.getElementById('serverUrl').value = tokens.serverUrl || '';
                     
                     // Display tokens
                     displayTokens();
                     
-                    // Show saved section
+                    // Show saved section and file upload
                     document.getElementById('savedTokensSection').classList.add('active');
+                    document.getElementById('fileUploadSection').style.display = 'block';
                     
                     // Check if repository is already selected
                     const repoConfig = localStorage.getItem('dos_repo_config');
@@ -726,6 +795,12 @@
                 // Display Nitrado token (always present)
                 document.getElementById('displayNitradoToken').textContent = maskToken(tokens.nitradoToken);
                 document.getElementById('displayNitradoToken').dataset.token = tokens.nitradoToken;
+                
+                // Display Nitrado Server ID
+                document.getElementById('displayNitradoServerId').textContent = tokens.nitradoServerId || 'Not set';
+                
+                // Display Server Map
+                document.getElementById('displayServerMap').textContent = tokens.serverMap || 'Not selected';
                 
                 // Display server URL if present
                 const serverUrlItem = document.getElementById('serverUrlItem');
@@ -1005,6 +1080,64 @@
             } catch (e) {
                 console.error('Error loading repo config:', e);
             }
+        }
+        
+        // Handle file upload from dashboard
+        async function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const statusDiv = document.getElementById('uploadStatus');
+            statusDiv.style.display = 'block';
+            
+            // Check file type
+            if (!file.name.endsWith('.xml') && !file.name.endsWith('.json')) {
+                statusDiv.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
+                statusDiv.style.borderLeft = '4px solid #dc2626';
+                statusDiv.innerHTML = '❌ Invalid file type. Only XML and JSON files are allowed.';
+                return;
+            }
+            
+            // Check file size (10MB limit)
+            if (file.size > 10 * 1024 * 1024) {
+                statusDiv.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
+                statusDiv.style.borderLeft = '4px solid #dc2626';
+                statusDiv.innerHTML = '❌ File too large. Maximum size is 10MB.';
+                return;
+            }
+            
+            // Read file content
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const fileContent = e.target.result;
+                
+                // Store file temporarily
+                const tokens = JSON.parse(localStorage.getItem('dos_tokens'));
+                const missionFile = {
+                    fileName: file.name,
+                    mapName: tokens.serverMap,
+                    fileData: fileContent,
+                    uploadedAt: new Date().toISOString()
+                };
+                
+                localStorage.setItem('dos_pending_file', JSON.stringify(missionFile));
+                
+                statusDiv.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
+                statusDiv.style.borderLeft = '4px solid #22c55e';
+                statusDiv.innerHTML = `
+                    ✅ <strong>${file.name}</strong> uploaded successfully!<br>
+                    <small>Map: ${tokens.serverMap} • Size: ${(file.size / 1024).toFixed(2)} KB</small><br>
+                    <small>File is ready for validation. Use <code>/validate</code> command in Discord.</small>
+                `;
+            };
+            
+            reader.onerror = function() {
+                statusDiv.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
+                statusDiv.style.borderLeft = '4px solid #dc2626';
+                statusDiv.innerHTML = '❌ Error reading file. Please try again.';
+            };
+            
+            reader.readAsText(file);
         }
     </script>
 </body>
