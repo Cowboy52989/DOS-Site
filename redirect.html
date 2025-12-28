@@ -40,10 +40,24 @@
             bottom: 0;
             background: linear-gradient(180deg, 
                 rgba(0, 0, 0, 0.7) 0%, 
-                rgba(10, 0, 0, 0.6) 50%, 
+                rgba(5, 0, 0, 0.4) 50%, 
                 rgba(0, 0, 0, 0.8) 100%);
             pointer-events: none;
             z-index: 1;
+        }
+        
+        body::after {
+            content: 'DOS';
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            font-family: 'Bebas Neue', 'Teko', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: rgba(139, 0, 0, 0.6);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            z-index: 1;
+            pointer-events: none;
         }
         
         .container {
@@ -63,15 +77,15 @@
         }
         
         .logo {
-            width: 220px;
-            height: 220px;
+            width: 240px;
+            height: 180px;
             margin: 0 auto 24px;
-            border-radius: 12px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 4px solid rgba(139, 0, 0, 0.6);
+            border: 3px solid rgba(139, 0, 0, 0.6);
             box-shadow: 
                 0 0 30px rgba(139, 0, 0, 0.5),
                 inset 0 0 20px rgba(0, 0, 0, 0.5);
@@ -81,7 +95,8 @@
         .logo img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
+            object-position: center;
         }
         
         h1 {
