@@ -512,14 +512,15 @@
             <h2 style="color: #c0c0c0; font-size: 24px; margin-bottom: 16px; text-align: center;">📤 Upload Mission Files</h2>
             
             <div class="form-group">
-                <label for="missionFileUpload">Select Mission File (XML or JSON)</label>
+                <label for="missionFileUpload">Select Mission Files (XML or JSON)</label>
                 <input 
                     type="file" 
                     id="missionFileUpload" 
                     accept=".xml,.json"
+                    multiple
                     onchange="handleFileUpload(event)"
                 />
-                <div class="form-help">Upload your mission file for validation. You can also use <code>/upload</code> command in Discord.</div>
+                <div class="form-help">Upload multiple mission files for validation. You can also use <code>/upload</code> command in Discord.</div>
             </div>
             
             <div id="uploadStatus" style="display: none; padding: 12px; border-radius: 8px; margin-top: 12px;"></div>
@@ -1084,59 +1085,75 @@
         
         // Handle file upload from dashboard
         async function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+            const files = Array.from(event.target.files);
+            if (!files.length) return;
             
             const statusDiv = document.getElementById('uploadStatus');
             statusDiv.style.display = 'block';
             
-            // Check file type
-            if (!file.name.endsWith('.xml') && !file.name.endsWith('.json')) {
-                statusDiv.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
-                statusDiv.style.borderLeft = '4px solid #dc2626';
-                statusDiv.innerHTML = '❌ Invalid file type. Only XML and JSON files are allowed.';
-                return;
+            const tokens = JSON.parse(localStorage.getItem('dos_tokens'));
+            const existingFiles = JSON.parse(localStorage.getItem('dos_pending_files') || '[]');
+            const uploadedFiles = [];
+            const errors = [];
+            
+            for (const file of files) {
+                // Check file type
+                if (!file.name.endsWith('.xml') && !file.name.endsWith('.json')) {
+                    errors.push(`❌ ${file.name}: Invalid file type`);
+                    continue;
+                }
+                
+                // Check file size (10MB limit)
+                if (file.size > 10 * 1024 * 1024) {
+                    errors.push(`❌ ${file.name}: File too large (max 10MB)`);
+                    continue;
+                }
+                
+                try {
+                    // Read file content
+                    const fileContent = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.onerror = reject;
+                        reader.readAsText(file);
+                    });
+                    
+                    // Add to uploaded files
+                    uploadedFiles.push({
+                        fileName: file.name,
+                        mapName: tokens.serverMap,
+                        fileData: fileContent,
+                        uploadedAt: new Date().toISOString()
+                    });
+                } catch (error) {
+                    errors.push(`❌ ${file.name}: Error reading file`);
+                }
             }
             
-            // Check file size (10MB limit)
-            if (file.size > 10 * 1024 * 1024) {
-                statusDiv.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
-                statusDiv.style.borderLeft = '4px solid #dc2626';
-                statusDiv.innerHTML = '❌ File too large. Maximum size is 10MB.';
-                return;
-            }
+            // Store all files
+            const allFiles = [...existingFiles, ...uploadedFiles];
+            localStorage.setItem('dos_pending_files', JSON.stringify(allFiles));
             
-            // Read file content
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const fileContent = e.target.result;
-                
-                // Store file temporarily
-                const tokens = JSON.parse(localStorage.getItem('dos_tokens'));
-                const missionFile = {
-                    fileName: file.name,
-                    mapName: tokens.serverMap,
-                    fileData: fileContent,
-                    uploadedAt: new Date().toISOString()
-                };
-                
-                localStorage.setItem('dos_pending_file', JSON.stringify(missionFile));
-                
+            // Display status
+            if (uploadedFiles.length > 0) {
                 statusDiv.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
                 statusDiv.style.borderLeft = '4px solid #22c55e';
                 statusDiv.innerHTML = `
-                    ✅ <strong>${file.name}</strong> uploaded successfully!<br>
-                    <small>Map: ${tokens.serverMap} • Size: ${(file.size / 1024).toFixed(2)} KB</small><br>
-                    <small>File is ready for validation. Use <code>/validate</code> command in Discord.</small>
+                    ✅ <strong>${uploadedFiles.length} file(s)</strong> uploaded successfully!<br>
+                    <small>Total files ready: ${allFiles.length}</small><br>
+                    ${uploadedFiles.map(f => `<small>• ${f.fileName} (${tokens.serverMap})</small>`).join('<br>')}<br>
+                    <small>Files are ready for validation. Use <code>/validate</code> command in Discord.</small>
                 `;
-            };
+            }
             
-            reader.onerror = function() {
-                statusDiv.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
-                statusDiv.style.borderLeft = '4px solid #dc2626';
-                statusDiv.innerHTML = '❌ Error reading file. Please try again.';
-            };
-            
+            if (errors.length > 0) {
+                if (uploadedFiles.length === 0) {
+                    statusDiv.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
+                    statusDiv.style.borderLeft = '4px solid #dc2626';
+                }
+                statusDiv.innerHTML += `<br><br><strong>Errors:</strong><br>${errors.join('<br>')}`;
+            }
+        }
             reader.readAsText(file);
         }
     </script>
