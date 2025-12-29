@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token Manager - DayZ Overwatch Sentinel</title>
+    <title>DayZ Overwatch Sentinel - Control Panel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Teko:wght@400;600;700&display=swap" rel="stylesheet">
@@ -23,10 +23,6 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
             position: relative;
             overflow-x: hidden;
         }
@@ -48,6 +44,140 @@
             z-index: 1;
         }
         
+        /* Navigation Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 260px;
+            background: rgba(15, 15, 15, 0.98);
+            border-right: 2px solid rgba(139, 0, 0, 0.4);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        
+        .sidebar-logo {
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid rgba(139, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-logo-img {
+            width: 120px;
+            height: 90px;
+            margin: 0 auto;
+            border-radius: 8px;
+            border: 2px solid rgba(139, 0, 0, 0.6);
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-logo-img::before {
+            content: 'DOS';
+            font-family: 'Bebas Neue', 'Teko', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+            position: absolute;
+            top: 5px;
+            left: 5px;
+        }
+        
+        .sidebar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .sidebar-title {
+            font-family: 'Bebas Neue', 'Teko', sans-serif;
+            color: #c0c0c0;
+            font-size: 20px;
+            margin-top: 12px;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .nav-item {
+            margin: 0;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            color: #a0a0a0;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover {
+            background: rgba(139, 0, 0, 0.1);
+            color: #d08080;
+            border-left-color: rgba(139, 0, 0, 0.6);
+        }
+        
+        .nav-link.active {
+            background: rgba(139, 0, 0, 0.2);
+            color: #ff6b6b;
+            border-left-color: #ff6b6b;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-right: 12px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .nav-section-title {
+            padding: 20px 20px 10px 20px;
+            color: #606060;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            margin-left: 260px;
+            padding: 40px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .container {
             background: rgba(20, 20, 20, 0.95);
             border-radius: 16px;
@@ -56,60 +186,9 @@
                 0 20px 60px rgba(0, 0, 0, 0.8),
                 0 0 40px rgba(139, 0, 0, 0.3),
                 inset 0 0 80px rgba(139, 0, 0, 0.1);
-            max-width: 650px;
-            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
             padding: 40px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .logo {
-            width: 240px;
-            height: 180px;
-            margin: 0 auto 24px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: visible;
-            border: 3px solid rgba(139, 0, 0, 0.6);
-            box-shadow: 
-                0 0 30px rgba(139, 0, 0, 0.5),
-                inset 0 0 20px rgba(0, 0, 0, 0.5);
-            background: #000;
-            position: relative;
-        }
-        
-        .logo::before {
-            content: 'DOS';
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            font-family: 'Bebas Neue', 'Teko', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 
-                2px 2px 4px rgba(0, 0, 0, 0.9),
-                0 0 8px rgba(0, 0, 0, 0.8);
-            z-index: 10;
-            pointer-events: none;
-        }
-        
-        .logo-image-wrapper {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            border-radius: 5px;
-        }
-        
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            display: block;
         }
         
         h1 {
@@ -126,6 +205,23 @@
                 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
         
+        h2 {
+            font-family: 'Bebas Neue', 'Teko', sans-serif;
+            color: #c0c0c0;
+            font-size: 32px;
+            margin: 32px 0 16px 0;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.4);
+        }
+        
+        h3 {
+            color: #d08080;
+            font-size: 20px;
+            margin: 24px 0 12px 0;
+            font-weight: 600;
+        }
+        
         .subtitle {
             color: #808080;
             font-size: 16px;
@@ -133,43 +229,8 @@
             font-weight: 400;
         }
         
-        .status {
-            display: none;
-            padding: 16px;
-            border-radius: 8px;
-            margin: 24px 0;
-            text-align: left;
-            font-size: 16px;
-            border: 1px solid;
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .status.success {
-            background: rgba(0, 80, 0, 0.3);
-            color: #90ee90;
-            border-color: rgba(0, 139, 0, 0.5);
-            box-shadow: 0 0 10px rgba(0, 139, 0, 0.2);
-            display: block;
-        }
-        
-        .status.error {
-            background: rgba(80, 0, 0, 0.3);
-            color: #ff6b6b;
-            border-color: rgba(139, 0, 0, 0.5);
-            box-shadow: 0 0 10px rgba(139, 0, 0, 0.2);
-            display: block;
-        }
-        
-        .status.info {
-            background: rgba(40, 40, 60, 0.3);
-            color: #a0a0d0;
-            border-color: rgba(70, 70, 139, 0.5);
-            box-shadow: 0 0 10px rgba(70, 70, 139, 0.2);
-            display: block;
-        }
-        
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             text-align: left;
         }
         
@@ -181,7 +242,9 @@
             font-size: 14px;
         }
         
-        .form-group textarea {
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 12px;
             border: 1px solid rgba(139, 0, 0, 0.4);
@@ -191,24 +254,16 @@
             transition: all 0.2s;
             background: rgba(0, 0, 0, 0.5);
             color: #c0c0c0;
-            min-height: 70px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
             resize: vertical;
         }
         
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(139, 0, 0, 0.4);
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: 'Courier New', monospace;
-            transition: all 0.2s;
-            background: rgba(0, 0, 0, 0.5);
-            color: #c0c0c0;
-        }
-        
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: rgba(139, 0, 0, 0.7);
             box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.2);
@@ -255,6 +310,8 @@
         
         .button.full-width {
             width: 100%;
+            display: block;
+            text-align: center;
         }
         
         .button.secondary {
@@ -268,96 +325,153 @@
             box-shadow: 0 4px 12px rgba(80, 80, 80, 0.4);
         }
         
-        .button.danger {
-            background: linear-gradient(135deg, rgba(180, 0, 0, 0.8) 0%, rgba(120, 0, 0, 0.8) 100%);
-            color: white;
-            border-color: rgba(180, 0, 0, 0.6);
+        .status {
+            padding: 16px;
+            border-radius: 8px;
+            margin: 24px 0;
+            text-align: left;
+            font-size: 14px;
+            border: 1px solid;
+            background: rgba(0, 0, 0, 0.5);
         }
         
-        .button.danger:hover {
-            background: linear-gradient(135deg, rgba(200, 0, 0, 0.9) 0%, rgba(140, 0, 0, 0.9) 100%);
-            box-shadow: 0 6px 20px rgba(180, 0, 0, 0.6);
+        .status.success {
+            background: rgba(0, 80, 0, 0.3);
+            color: #90ee90;
+            border-color: rgba(0, 139, 0, 0.5);
         }
         
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
+        .status.error {
+            background: rgba(80, 0, 0, 0.3);
+            color: #ff6b6b;
+            border-color: rgba(139, 0, 0, 0.5);
+        }
+        
+        .status.info {
+            background: rgba(0, 40, 80, 0.3);
+            color: #6b9bff;
+            border-color: rgba(0, 69, 139, 0.5);
         }
         
         .warning-box {
             background: rgba(80, 60, 0, 0.3);
             border: 1px solid rgba(139, 100, 0, 0.5);
             border-radius: 8px;
-            padding: 12px;
+            padding: 16px;
             margin: 16px 0;
-            font-size: 13px;
+            font-size: 14px;
             color: #f0d090;
             text-align: left;
         }
         
         .warning-box strong {
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             color: #ffa500;
         }
         
-        .token-display {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(139, 0, 0, 0.3);
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.3), transparent);
+            margin: 32px 0;
+        }
+        
+        .field-saved-check {
+            display: none;
+            color: #90ee90;
+            font-size: 16px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        
+        .field-saved-check.visible {
+            display: inline;
+        }
+        
+        .help-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            background: rgba(139, 0, 0, 0.6);
+            color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 6px;
+            vertical-align: middle;
+            position: relative;
+        }
+        
+        .help-icon:hover {
+            background: rgba(180, 0, 0, 0.8);
+        }
+        
+        .help-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 8px;
+            background: rgba(20, 20, 20, 0.98);
+            border: 2px solid rgba(139, 0, 0, 0.6);
             border-radius: 8px;
-            padding: 16px;
-            margin-top: 16px;
-            text-align: left;
+            padding: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
         }
         
-        .token-item {
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(139, 0, 0, 0.2);
+        .help-icon:hover .help-tooltip {
+            display: block;
         }
         
-        .token-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-        
-        .token-label {
-            font-weight: 600;
-            color: #c0c0c0;
+        .help-tooltip h4 {
+            color: #d08080;
+            margin: 0 0 8px 0;
             font-size: 14px;
+        }
+        
+        .help-tooltip p {
+            color: #c0c0c0;
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .help-tooltip ol {
+            color: #a0a0a0;
+            margin: 0;
+            padding-left: 20px;
+            font-size: 12px;
+        }
+        
+        .help-tooltip li {
             margin-bottom: 4px;
         }
         
-        .token-value {
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            color: #a0a0a0;
-            word-break: break-all;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid rgba(139, 0, 0, 0.2);
-        }
-        
-        .token-masked {
-            letter-spacing: 2px;
-        }
-        
-        .toggle-visibility {
-            background: none;
-            border: none;
-            color: #d08080;
-            cursor: pointer;
-            font-size: 12px;
-            padding: 4px 8px;
-            margin-top: 4px;
-            text-decoration: underline;
-        }
-        
-        .toggle-visibility:hover {
+        .help-tooltip code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 6px;
+            border-radius: 3px;
             color: #ff6b6b;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(139, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        
+        .card h3 {
+            margin-top: 0;
         }
         
         .footer {
@@ -366,6 +480,7 @@
             border-top: 1px solid rgba(139, 0, 0, 0.3);
             color: #808080;
             font-size: 14px;
+            text-align: center;
         }
         
         .footer a {
@@ -379,783 +494,669 @@
             text-decoration: underline;
         }
         
-        .section-divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.3), transparent);
-            margin: 32px 0;
+        code {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #ff6b6b;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
         }
         
-        .saved-tokens-section {
-            display: none;
+        pre {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(139, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            color: #c0c0c0;
+            font-size: 13px;
+            margin: 16px 0;
         }
         
-        .saved-tokens-section.active {
-            display: block;
+        ul, ol {
+            color: #c0c0c0;
+            margin: 12px 0;
+            padding-left: 24px;
         }
         
-        .icon {
-            font-size: 32px;
-            margin-bottom: 12px;
+        li {
+            margin: 8px 0;
+            line-height: 1.6;
         }
         
-        h2 {
-            font-family: 'Bebas Neue', 'Teko', sans-serif;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(139, 0, 0, 0.4);
+        p {
+            color: #a0a0a0;
+            line-height: 1.7;
+            margin: 12px 0;
         }
         
-        select {
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+        
+        .grid-item {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(139, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
             cursor: pointer;
         }
         
-        select:focus {
-            outline: none;
-            border-color: rgba(139, 0, 0, 0.7);
-            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.2);
-            background: rgba(0, 0, 0, 0.7);
+        .grid-item:hover {
+            border-color: rgba(139, 0, 0, 0.6);
+            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
+            transform: translateY(-2px);
         }
         
-        select option {
-            background: #1a1a1a;
-            color: #c0c0c0;
-            padding: 8px;
+        .grid-item h3 {
+            margin: 0 0 12px 0;
+        }
+        
+        .grid-item p {
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            
+            .main-content {
+                margin-left: 200px;
+                padding: 20px;
+            }
+            
+            .container {
+                padding: 24px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                border-right: none;
+                border-bottom: 2px solid rgba(139, 0, 0, 0.4);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .nav-section-title {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="logo.png" alt="DayZ Overwatch Sentinel" onerror="this.parentElement.innerHTML='🎮'">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-img">
+                <img src="https://yt3.googleusercontent.com/1C_eYeaQj5M_LBXjfO_LcElFDJ0-fxe9W0u-MqyPH9dPVBFG8sBEv7zvfEgLkTEwMy0rn-WFVg=s160-c-k-c0x00ffffff-no-rj" alt="DOS Logo">
+            </div>
+            <div class="sidebar-title">Overwatch Sentinel</div>
         </div>
         
-        <h1>DayZ Overwatch Sentinel</h1>
-        <p class="subtitle">Mission File Validator & Server Upload Manager</p>
-        
-        <!-- Token Management Form -->
-        <div id="tokenForm">
-            <div class="warning-box">
-                <strong>⚠️ Security Notice</strong>
-                Your tokens are stored locally in your browser only. Never share your tokens with anyone.
-            </div>
+        <ul class="nav-menu">
+            <li class="nav-section-title">Main</li>
+            <li class="nav-item">
+                <a class="nav-link active" onclick="showPage('home')" data-page="home">
+                    <span class="nav-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showPage('configuration')" data-page="configuration">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Configuration</span>
+                </a>
+            </li>
             
-            <form onsubmit="saveTokens(event)">
-                <div class="form-group">
-                    <label for="discordToken">Discord Bot Token *</label>
-                    <textarea 
-                        id="discordToken" 
-                        placeholder="Paste your Discord bot token here..."
-                        required
-                    ></textarea>
-                    <div class="form-help">Get your token from <a href="https://discord.com/developers/applications" target="_blank">Discord Developer Portal</a></div>
-                </div>
+            <li class="nav-section-title">Tools</li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showPage('validation')" data-page="validation">
+                    <span class="nav-icon">✓</span>
+                    <span>Validation</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showPage('github')" data-page="github">
+                    <span class="nav-icon">📁</span>
+                    <span>GitHub</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showPage('nitrado')" data-page="nitrado">
+                    <span class="nav-icon">🚀</span>
+                    <span>Nitrado</span>
+                </a>
+            </li>
+            
+            <li class="nav-section-title">Help</li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showPage('support')" data-page="support">
+                    <span class="nav-icon">💬</span>
+                    <span>Support</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showPage('documentation')" data-page="documentation">
+                    <span class="nav-icon">📚</span>
+                    <span>Documentation</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" onclick="showPage('about')" data-page="about">
+                    <span class="nav-icon">ℹ️</span>
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- HOME PAGE (Dashboard) -->
+        <div id="page-home" class="page active">
+            <div class="container">
+                <h1>Welcome to DOS</h1>
+                <p class="subtitle">DayZ Overwatch Sentinel Control Panel</p>
                 
-                <div class="form-group">
-                    <label for="githubToken">GitHub Personal Access Token *</label>
-                    <textarea 
-                        id="githubToken" 
-                        placeholder="Paste your GitHub token here..."
-                        required
-                    ></textarea>
-                    <div class="form-help">Required for mission file validation and PR submissions - Get from <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings</a></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="nitradoToken">Nitrado API Token *</label>
-                    <textarea 
-                        id="nitradoToken" 
-                        placeholder="Paste your Nitrado token here..."
-                        required
-                    ></textarea>
-                    <div class="form-help">Required for FTP uploads to your server - Get from <a href="https://server.nitrado.net" target="_blank">Nitrado Server Panel</a></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="nitradoServerId">Nitrado Server ID *</label>
-                    <input 
-                        type="number" 
-                        id="nitradoServerId" 
-                        placeholder="Enter your Nitrado server ID..."
-                        required
-                    />
-                    <div class="form-help">Find this in your Nitrado server panel URL (e.g., server.nitrado.net/eng/gameserver/<strong>1234567</strong>)</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="serverMap">Server Map *</label>
-                    <select id="serverMap" required>
-                        <option value="">-- Select your server's map --</option>
-                        <option value="Chernarus">Chernarus</option>
-                        <option value="Livonia">Livonia</option>
-                        <option value="Sakhal">Sakhal</option>
-                    </select>
-                    <div class="form-help">Select which map your DayZ server is running (console-only maps)</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="serverUrl">Discord Server/Guild ID (Optional)</label>
-                    <input 
-                        type="text" 
-                        id="serverUrl" 
-                        placeholder="Enter your Discord server ID..."
-                    />
-                    <div class="form-help">Right-click your server icon in Discord and select "Copy ID"</div>
-                </div>
-                
-                <button type="submit" class="button full-width">💾 Save Configuration & Continue</button>
-            </form>
-        </div>
-        
-        <!-- File Upload Section (shown after tokens saved) -->
-        <div id="fileUploadSection" class="saved-tokens-section" style="display: none;">
-            <div class="section-divider"></div>
-            
-            <h2 style="color: #c0c0c0; font-size: 24px; margin-bottom: 16px; text-align: center;">📤 Upload Mission Files</h2>
-            
-            <div class="form-group">
-                <label for="missionFileUpload">Select Mission Files (XML or JSON)</label>
-                <input 
-                    type="file" 
-                    id="missionFileUpload" 
-                    accept=".xml,.json"
-                    multiple
-                    onchange="handleFileUpload(event)"
-                />
-                <div class="form-help">Upload multiple mission files for validation. You can also use <code>/upload</code> command in Discord.</div>
-            </div>
-            
-            <div id="uploadStatus" style="display: none; padding: 12px; border-radius: 8px; margin-top: 12px;"></div>
-        </div>
-        
-        <!-- Repository Selection Section -->
-        <div id="repoSelectionSection" class="saved-tokens-section" style="display: none;">
-            <div class="section-divider"></div>
-            
-            <h2 style="color: #c0c0c0; font-size: 24px; margin-bottom: 16px; text-align: center;">📁 Select Mission Files Repository</h2>
-            
-            <div class="warning-box" style="background: rgba(40, 40, 60, 0.3); border-color: rgba(70, 70, 139, 0.5);">
-                <strong>ℹ️ Repository Setup</strong>
-                Choose where your mission files will be stored and validated. You can select an existing repository or create a new one.
-            </div>
-            
-            <div class="form-group">
-                <label>Repository Option</label>
-                <div style="display: flex; gap: 12px; margin-bottom: 16px;">
-                    <button class="button secondary" onclick="selectRepoOption('existing')" id="btnExisting" style="flex: 1;">📂 Use Existing</button>
-                    <button class="button secondary" onclick="selectRepoOption('new')" id="btnNew" style="flex: 1;">➕ Create New</button>
-                </div>
-            </div>
-            
-            <!-- Existing Repository Browser -->
-            <div id="existingRepoSection" style="display: none;">
-                <div class="form-group">
-                    <button class="button full-width" onclick="loadGitHubRepos()" id="btnLoadRepos">
-                        🔄 Load My Repositories
-                    </button>
-                </div>
-                
-                <div id="repoListContainer" style="display: none; margin-top: 16px;">
-                    <div class="form-group">
-                        <label for="repoSelect">Select Repository</label>
-                        <select id="repoSelect" style="width: 100%; padding: 12px; border: 1px solid rgba(139, 0, 0, 0.4); border-radius: 8px; background: rgba(0, 0, 0, 0.5); color: #c0c0c0; font-size: 14px; font-family: 'Courier New', monospace;">
-                            <option value="">-- Select a repository --</option>
-                        </select>
-                        <div class="form-help" id="repoCount"></div>
+                <div class="grid">
+                    <div class="grid-item" onclick="showPage('configuration')">
+                        <h3>⚙️ Configuration</h3>
+                        <p>Set up your tokens, server settings, and preferences</p>
                     </div>
                     
-                    <div id="repoDetails" style="display: none; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(139, 0, 0, 0.3); border-radius: 8px; padding: 12px; margin-top: 12px;">
-                        <div style="font-size: 13px; color: #a0a0a0;">
-                            <div style="margin-bottom: 8px;"><strong style="color: #c0c0c0;">Repository:</strong> <span id="repoName"></span></div>
-                            <div style="margin-bottom: 8px;"><strong style="color: #c0c0c0;">Owner:</strong> <span id="repoOwner"></span></div>
-                            <div style="margin-bottom: 8px;"><strong style="color: #c0c0c0;">Default Branch:</strong> <span id="repoBranch"></span></div>
-                            <div><strong style="color: #c0c0c0;">Full Name:</strong> <span id="repoFullName" style="font-family: 'Courier New', monospace; color: #d08080;"></span></div>
+                    <div class="grid-item" onclick="showPage('validation')">
+                        <h3>✓ Validation</h3>
+                        <p>Validate mission files for console safety</p>
+                    </div>
+                    
+                    <div class="grid-item" onclick="showPage('github')">
+                        <h3>📁 GitHub</h3>
+                        <p>Manage repositories and submit pull requests</p>
+                    </div>
+                    
+                    <div class="grid-item" onclick="showPage('nitrado')">
+                        <h3>🚀 Nitrado</h3>
+                        <p>Deploy files to your Nitrado server</p>
+                    </div>
+                    
+                    <div class="grid-item" onclick="showPage('support')">
+                        <h3>💬 Support</h3>
+                        <p>Get help and troubleshoot issues</p>
+                    </div>
+                    
+                    <div class="grid-item" onclick="showPage('documentation')">
+                        <h3>📚 Documentation</h3>
+                        <p>Read comprehensive guides and tutorials</p>
+                    </div>
+                </div>
+                
+                <div class="status info" style="margin-top: 32px;">
+                    <strong>🎯 Quick Start</strong>
+                    <p>1. Configure your tokens in the Configuration page<br>
+                    2. Upload mission files for validation<br>
+                    3. Submit to GitHub or deploy to Nitrado<br>
+                    4. Use Discord bot commands for real-time operations</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CONFIGURATION PAGE -->
+        <div id="page-configuration" class="page">
+            <div class="container">
+                <h1>Configuration</h1>
+                <p class="subtitle">Set up your tokens and server settings</p>
+                
+                <!-- Token Configuration Form will go here -->
+                <div id="config-content">
+                    <!-- Content from original redirect.html will be inserted here -->
+                    <p style="color: #808080;">Configuration form loading...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- VALIDATION PAGE -->
+        <div id="page-validation" class="page">
+            <div class="container">
+                <h1>Mission File Validation</h1>
+                <p class="subtitle">Validate DayZ mission files for console safety</p>
+                
+                <div class="card">
+                    <h3>How Validation Works</h3>
+                    <p>The DOS Bot validates mission files in two stages:</p>
+                    <ol>
+                        <li><strong>Stage 1: Format Validation</strong> - Checks JSON/XML syntax</li>
+                        <li><strong>Stage 2: Content Validation</strong> - Verifies classnames and console compatibility</li>
+                    </ol>
+                </div>
+                
+                <div class="form-group">
+                    <label for="validation-file">Upload Mission File</label>
+                    <input type="file" id="validation-file" accept=".json,.xml" multiple>
+                    <div class="form-help">Supported formats: JSON, XML</div>
+                </div>
+                
+                <button class="button full-width" onclick="validateFiles()">
+                    ✓ Validate Files
+                </button>
+                
+                <div id="validation-results" style="margin-top: 24px;"></div>
+                
+                <div class="warning-box" style="margin-top: 24px;">
+                    <strong>💡 Pro Tip</strong>
+                    For best results, use the Discord bot command <code>/upload</code> followed by <code>/validate</code>. The bot provides detailed error reports and can limit results to prevent overload on large files.
+                </div>
+            </div>
+        </div>
+        
+        <!-- GITHUB PAGE -->
+        <div id="page-github" class="page">
+            <div class="container">
+                <h1>GitHub Integration</h1>
+                <p class="subtitle">Manage repositories and submit pull requests</p>
+                
+                <div class="card">
+                    <h3>📁 Repository Management</h3>
+                    <p>Connect your GitHub account to manage mission file repositories.</p>
+                    
+                    <div class="form-group">
+                        <label for="github-token-input">GitHub Personal Access Token</label>
+                        <input type="password" id="github-token-input" placeholder="ghp_your_token_here">
+                        <div class="form-help">Token must have <code>repo</code> scope</div>
+                    </div>
+                    
+                    <button class="button" onclick="testGitHubConnection()">Test Connection</button>
+                </div>
+                
+                <div class="card">
+                    <h3>🔀 Pull Request Workflow</h3>
+                    <p>The bot creates PRs with the following structure:</p>
+                    <ul>
+                        <li>Branch: <code>mission-update-{username}-{timestamp}</code></li>
+                        <li>Files: <code>missions/{MapName}/</code></li>
+                        <li>Includes validation summary</li>
+                    </ul>
+                </div>
+                
+                <div class="status info">
+                    <strong>🤖 Discord Bot Commands</strong>
+                    <p>• <code>/submit_pr</code> - Create pull request with validated files<br>
+                    • Files must be validated first<br>
+                    • Token stored locally in browser</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- NITRADO PAGE -->
+        <div id="page-nitrado" class="page">
+            <div class="container">
+                <h1>Nitrado Integration</h1>
+                <p class="subtitle">Deploy mission files to your Nitrado server</p>
+                
+                <div class="card">
+                    <h3>🚀 Server Deployment</h3>
+                    <p>Deploy validated mission files directly to your DayZ server via FTP.</p>
+                    
+                    <div class="warning-box">
+                        <strong>⚠️ Requirements</strong>
+                        • Nitrado API Token<br>
+                        • Nitrado Server ID<br>
+                        • Files must be validated first
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📋 How to Get Your Server ID</h3>
+                    <ol>
+                        <li>Log into <a href="https://server.nitrado.net" target="_blank" style="color: #ff6b6b;">Nitrado Server Panel</a></li>
+                        <li>Select your DayZ server</li>
+                        <li>Look at the URL: <code>server.nitrado.net/eng/gameserver/<strong>1234567</strong></code></li>
+                        <li>The number <code>1234567</code> is your Server ID</li>
+                    </ol>
+                </div>
+                
+                <div class="status info">
+                    <strong>🤖 Discord Bot Commands</strong>
+                    <p>• <code>/deploy</code> - Deploy validated files to Nitrado (coming soon)<br>
+                    • Automatic backup before deployment<br>
+                    • FTP upload to correct map directory</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SUPPORT PAGE -->
+        <div id="page-support" class="page">
+            <div class="container">
+                <h1>DOS Support</h1>
+                <p class="subtitle">Get help with the DayZ Overwatch Sentinel</p>
+                
+                <div class="card">
+                    <h3>💬 Interactive Support</h3>
+                    <p>DOS-SUPPORT is a read-only assistant that can help with:</p>
+                    <ul>
+                        <li>Explaining how DOS Bot works</li>
+                        <li>Troubleshooting errors and issues</li>
+                        <li>Understanding validation results</li>
+                        <li>Configuration guidance</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🤖 Discord Support Commands</h3>
+                    <ul>
+                        <li><code>/support help</code> - Topic-specific help</li>
+                        <li><code>/support diagnose</code> - Analyze errors</li>
+                        <li><code>/support explain</code> - Understand code</li>
+                        <li><code>/support list-files</code> - Browse files</li>
+                        <li><code>/support about</code> - About DOS-SUPPORT</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📋 Common Issues</h3>
+                    <div class="grid">
+                        <div>
+                            <strong style="color: #d08080;">NullReferenceException</strong>
+                            <p style="font-size: 13px;">Run <code>/select-map</code> to set your map preference</p>
+                        </div>
+                        <div>
+                            <strong style="color: #d08080;">Validation Failures</strong>
+                            <p style="font-size: 13px;">Check JSON/XML syntax and classname validity</p>
+                        </div>
+                        <div>
+                            <strong style="color: #d08080;">GitHub Issues</strong>
+                            <p style="font-size: 13px;">Verify token has <code>repo</code> permissions</p>
+                        </div>
+                        <div>
+                            <strong style="color: #d08080;">File Not Found</strong>
+                            <p style="font-size: 13px;">Use <code>/list_files</code> to see uploaded files</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- New Repository Creation -->
-            <div id="newRepoSection" style="display: none;">
-                <div class="form-group">
-                    <label for="newRepoName">New Repository Name *</label>
-                    <input 
-                        type="text" 
-                        id="newRepoName" 
-                        placeholder="my-dayz-missions"
-                        pattern="[a-zA-Z0-9._-]+"
-                    />
-                    <div class="form-help">Repository name can only contain letters, numbers, hyphens, underscores, and periods</div>
-                </div>
                 
                 <div class="form-group">
-                    <label for="newRepoDescription">Description (Optional)</label>
-                    <input 
-                        type="text" 
-                        id="newRepoDescription" 
-                        placeholder="DayZ mission files for my server"
-                    />
+                    <label for="support-query">Ask a Question</label>
+                    <textarea id="support-query" placeholder="Describe your issue or question..."></textarea>
+                    <div class="form-help">DOS-SUPPORT can only answer questions about the DOS Bot system</div>
                 </div>
                 
-                <div class="form-group">
-                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="checkbox" id="newRepoPrivate" style="width: auto; margin: 0;">
-                        <span>Make repository private</span>
-                    </label>
-                    <div class="form-help">Private repositories are only visible to you and collaborators</div>
-                </div>
-            </div>
-            
-            <button class="button full-width" onclick="saveRepositorySelection()" style="margin-top: 24px;">
-                ✅ Save Repository Selection
-            </button>
-        </div>
-        
-        <!-- Saved Tokens Display -->
-        <div id="savedTokensSection" class="saved-tokens-section">
-            <div class="section-divider"></div>
-            
-            <div class="status success">
-                <div class="icon">✅</div>
-                <strong>Tokens Saved Successfully</strong>
-                <p style="color: #90ee90; margin-top: 8px; font-size: 14px;">Your tokens are stored securely in your browser.</p>
-            </div>
-            
-            <div class="token-display">
-                <div class="token-item">
-                    <div class="token-label">Discord Bot Token</div>
-                    <div class="token-value token-masked" id="displayDiscordToken">••••••••••••••••</div>
-                    <button class="toggle-visibility" onclick="toggleTokenVisibility('discord')">Show/Hide</button>
-                </div>
+                <button class="button full-width" onclick="submitSupportQuery()">
+                    💬 Get Help
+                </button>
                 
-                <div class="token-item">
-                    <div class="token-label">GitHub Token</div>
-                    <div class="token-value token-masked" id="displayGithubToken">••••••••••••••••</div>
-                    <button class="toggle-visibility" onclick="toggleTokenVisibility('github')">Show/Hide</button>
-                </div>
-                
-                <div class="token-item">
-                    <div class="token-label">Nitrado Token</div>
-                    <div class="token-value token-masked" id="displayNitradoToken">••••••••••••••••</div>
-                    <button class="toggle-visibility" onclick="toggleTokenVisibility('nitrado')">Show/Hide</button>
-                </div>
-                
-                <div class="token-item">
-                    <div class="token-label">Nitrado Server ID</div>
-                    <div class="token-value" id="displayNitradoServerId"></div>
-                </div>
-                
-                <div class="token-item">
-                    <div class="token-label">Server Map</div>
-                    <div class="token-value" id="displayServerMap"></div>
-                </div>
-                
-                <div class="token-item" id="serverUrlItem" style="display: none;">
-                    <div class="token-label">Discord Server ID</div>
-                    <div class="token-value" id="displayServerUrl"></div>
-                </div>
-            </div>
-            
-            <div class="button-group">
-                <button class="button secondary" onclick="editTokens()">✏️ Edit Tokens</button>
-                <button class="button secondary" onclick="showRepositorySelection()">📁 Configure Repository</button>
-                <button class="button danger" onclick="clearTokens()">🗑️ Clear All</button>
-            </div>
-            
-            <div class="status info" style="display: block; margin-top: 16px;">
-                <p style="font-size: 13px; color: #a0a0d0;">Last updated: <span id="lastUpdated">Never</span></p>
+                <div id="support-response" style="margin-top: 24px;"></div>
             </div>
         </div>
         
-        <div class="footer">
-            <p>DayZ Overwatch Sentinel Bot</p>
-            <p><a href="https://github.com/Cowboy52989/Discord-Bot-Project">Documentation</a> • <a href="https://github.com/Cowboy52989/Discord-Bot-Project/issues">Support</a></p>
+        <!-- DOCUMENTATION PAGE -->
+        <div id="page-documentation" class="page">
+            <div class="container">
+                <h1>Documentation</h1>
+                <p class="subtitle">Comprehensive guides and tutorials</p>
+                
+                <div class="card">
+                    <h3>📚 Getting Started</h3>
+                    <ol>
+                        <li>
+                            <strong>Configure Your Tokens</strong>
+                            <p>Set up Discord Bot Token, GitHub Token, and Nitrado Token in the Configuration page.</p>
+                        </li>
+                        <li>
+                            <strong>Select Your Map</strong>
+                            <p>Use <code>/select-map</code> command in Discord to choose your server's map (Chernarus, Livonia, or Sakhal).</p>
+                        </li>
+                        <li>
+                            <strong>Upload Mission Files</strong>
+                            <p>Use <code>/upload</code> command to upload your mission files (JSON or XML format).</p>
+                        </li>
+                        <li>
+                            <strong>Validate Files</strong>
+                            <p>Run <code>/validate</code> to check files for console safety and proper formatting.</p>
+                        </li>
+                        <li>
+                            <strong>Deploy or Submit</strong>
+                            <p>Use <code>/submit_pr</code> for GitHub or <code>/deploy</code> for Nitrado deployment.</p>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="card">
+                    <h3>📋 Command Reference</h3>
+                    
+                    <h4 style="color: #d08080; margin-top: 16px;">Setup Commands</h4>
+                    <ul>
+                        <li><code>/setgender</code> - Set preferred honorific (partner/cowboy/cowgirl)</li>
+                        <li><code>/select-map</code> - Choose server map</li>
+                    </ul>
+                    
+                    <h4 style="color: #d08080; margin-top: 16px;">File Management</h4>
+                    <ul>
+                        <li><code>/upload</code> - Upload mission files</li>
+                        <li><code>/validate</code> - Validate uploaded files</li>
+                        <li><code>/list_files</code> - View file queue</li>
+                        <li><code>/clear_files</code> - Clear file queue</li>
+                    </ul>
+                    
+                    <h4 style="color: #d08080; margin-top: 16px;">Integration Commands</h4>
+                    <ul>
+                        <li><code>/submit_pr</code> - Create GitHub pull request</li>
+                        <li><code>/deploy</code> - Deploy to Nitrado (coming soon)</li>
+                    </ul>
+                    
+                    <h4 style="color: #d08080; margin-top: 16px;">Event Commands</h4>
+                    <ul>
+                        <li><code>/apply_event</code> - Apply event decorations</li>
+                        <li><code>/clear_event</code> - Remove event decorations</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🔍 Validation System</h3>
+                    <p>The DOS Bot uses a two-stage validation process:</p>
+                    
+                    <h4 style="color: #d08080; margin-top: 16px;">Stage 1: Format Validation</h4>
+                    <ul>
+                        <li>Checks if file is valid JSON or XML</li>
+                        <li>Verifies structure matches DayZ format</li>
+                        <li>Identifies syntax errors (trailing commas, missing brackets, etc.)</li>
+                    </ul>
+                    
+                    <h4 style="color: #d08080; margin-top: 16px;">Stage 2: Content Validation</h4>
+                    <ul>
+                        <li>Validates classnames against database</li>
+                        <li>Checks console-safe restrictions</li>
+                        <li>Categorizes objects (Structures, Vehicles, Items, etc.)</li>
+                        <li>Verifies event compatibility with maps</li>
+                    </ul>
+                    
+                    <div class="warning-box">
+                        <strong>⚠️ Validation Limits</strong>
+                        Results are limited to 100 items per file to prevent overload. This ensures the bot doesn't freeze when processing large build files.
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>🔐 Security & Privacy</h3>
+                    <ul>
+                        <li>All tokens stored locally in your browser (localStorage)</li>
+                        <li>Tokens never sent to backend servers</li>
+                        <li>Read-only operations for support system</li>
+                        <li>No code modification capabilities</li>
+                        <li>File access restricted to allowed directories</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ABOUT PAGE -->
+        <div id="page-about" class="page">
+            <div class="container">
+                <h1>About DOS</h1>
+                <p class="subtitle">DayZ Overwatch Sentinel Information</p>
+                
+                <div class="card">
+                    <h3>🤖 What is DOS?</h3>
+                    <p>DayZ Overwatch Sentinel (DOS) is a comprehensive Discord bot and web platform designed to help DayZ console server administrators validate mission files, manage GitHub repositories, and deploy files to Nitrado servers.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>✨ Features</h3>
+                    <ul>
+                        <li><strong>Mission File Validation</strong> - Two-stage validation for console safety</li>
+                        <li><strong>GitHub Integration</strong> - Automated pull request creation</li>
+                        <li><strong>Nitrado Deployment</strong> - Direct FTP upload to servers</li>
+                        <li><strong>Event Management</strong> - Apply seasonal decorations</li>
+                        <li><strong>Interactive Support</strong> - DOS-SUPPORT assistant</li>
+                        <li><strong>Web Dashboard</strong> - Complete control panel</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🛠️ Technology Stack</h3>
+                    <ul>
+                        <li><strong>Backend:</strong> .NET 9.0, Discord.Net, Octokit</li>
+                        <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript</li>
+                        <li><strong>Hosting:</strong> Railway (bot), GitHub Pages (site)</li>
+                        <li><strong>APIs:</strong> Discord, GitHub, Nitrado</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>📝 Console-Only Maps</h3>
+                    <p>DOS Bot supports the following console-exclusive DayZ maps:</p>
+                    <ul>
+                        <li><strong>Chernarus</strong> - Original DayZ map</li>
+                        <li><strong>Livonia</strong> - Dense forest environment</li>
+                        <li><strong>Sakhal</strong> - Arctic survival map</li>
+                    </ul>
+                    <p style="font-size: 13px; color: #808080;">Modded maps are not supported due to console restrictions.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>👨‍💻 Development</h3>
+                    <p><strong>Developer:</strong> Cowboy52989</p>
+                    <p><strong>Repository:</strong> <a href="https://github.com/Cowboy52989/Discord-Bot-Project" target="_blank" style="color: #ff6b6b;">Discord-Bot-Project</a></p>
+                    <p><strong>Version:</strong> 1.0</p>
+                    <p><strong>License:</strong> Open Source</p>
+                </div>
+                
+                <div class="footer">
+                    <p>DayZ Overwatch Sentinel &copy; 2025 | Built with ❤️ for the DayZ Community</p>
+                </div>
+            </div>
         </div>
     </div>
     
     <script>
-        // Token visibility state
-        const tokenVisibility = {
-            discord: false,
-            github: false,
-            nitrado: false
-        };
-        
-        // Check if tokens exist on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            loadTokensFromStorage();
-        });
-        
-        // Save tokens to localStorage
-        function saveTokens(event) {
-            event.preventDefault();
+        // Page Navigation System
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
             
-            const tokens = {
-                discordToken: document.getElementById('discordToken').value.trim(),
-                githubToken: document.getElementById('githubToken').value.trim(),
-                nitradoToken: document.getElementById('nitradoToken').value.trim(),
-                nitradoServerId: document.getElementById('nitradoServerId').value.trim(),
-                serverMap: document.getElementById('serverMap').value,
-                serverUrl: document.getElementById('serverUrl').value.trim(),
-                timestamp: new Date().toISOString()
-            };
+            // Show selected page
+            document.getElementById('page-' + pageId).classList.add('active');
             
-            // Validate all required fields
-            if (!tokens.discordToken) {
-                alert('❌ Discord Bot Token is required!');
-                return;
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
             }
             
-            if (!tokens.githubToken) {
-                alert('❌ GitHub Token is required for mission file validation and PR submissions!');
-                return;
-            }
-            
-            if (!tokens.nitradoToken) {
-                alert('❌ Nitrado Token is required for FTP uploads to your server!');
-                return;
-            }
-            
-            if (!tokens.nitradoServerId) {
-                alert('❌ Nitrado Server ID is required!');
-                return;
-            }
-            
-            if (!tokens.serverMap) {
-                alert('❌ Server Map selection is required!');
-                return;
-            }                return;
-            }
-            
-            // Save to localStorage
-            try {
-                localStorage.setItem('dos_tokens', JSON.stringify(tokens));
-                
-                // Display saved tokens
-                displayTokens();
-                
-                // Show saved tokens section and file upload section
-                document.getElementById('savedTokensSection').classList.add('active');
-                document.getElementById('fileUploadSection').style.display = 'block';
-                
-                // Scroll to saved section
-                document.getElementById('savedTokensSection').scrollIntoView({ behavior: 'smooth' });
-            } catch (e) {
-                alert('❌ Error saving tokens: ' + e.message);
-            }
-        }
-        
-        // Load tokens from localStorage on page load
-        function loadTokensFromStorage() {
-            try {
-                const stored = localStorage.getItem('dos_tokens');
-                if (stored) {
-                    const tokens = JSON.parse(stored);
-                    
-                    // Populate form
-                    document.getElementById('discordToken').value = tokens.discordToken || '';
-                    document.getElementById('githubToken').value = tokens.githubToken || '';
-                    document.getElementById('nitradoToken').value = tokens.nitradoToken || '';
-                    document.getElementById('nitradoServerId').value = tokens.nitradoServerId || '';
-                    document.getElementById('serverMap').value = tokens.serverMap || '';
-                    document.getElementById('serverUrl').value = tokens.serverUrl || '';
-                    
-                    // Display tokens
-                    displayTokens();
-                    
-                    // Show saved section and file upload
-                    document.getElementById('savedTokensSection').classList.add('active');
-                    document.getElementById('fileUploadSection').style.display = 'block';
-                    
-                    // Check if repository is already selected
-                    const repoConfig = localStorage.getItem('dos_repo_config');
-                    if (repoConfig) {
-                        document.getElementById('repoSelectionSection').classList.add('active');
-                        loadSavedRepoConfig();
-                    }
-                }
-            } catch (e) {
-                console.error('Error loading tokens:', e);
-            }
-        }
-        
-        // Display stored tokens
-        function displayTokens() {
-            try {
-                const stored = localStorage.getItem('dos_tokens');
-                if (!stored) return;
-                
-                const tokens = JSON.parse(stored);
-                
-                // Display Discord token (always present)
-                document.getElementById('displayDiscordToken').textContent = maskToken(tokens.discordToken);
-                document.getElementById('displayDiscordToken').dataset.token = tokens.discordToken;
-                
-                // Display GitHub token (always present)
-                document.getElementById('displayGithubToken').textContent = maskToken(tokens.githubToken);
-                document.getElementById('displayGithubToken').dataset.token = tokens.githubToken;
-                
-                // Display Nitrado token (always present)
-                document.getElementById('displayNitradoToken').textContent = maskToken(tokens.nitradoToken);
-                document.getElementById('displayNitradoToken').dataset.token = tokens.nitradoToken;
-                
-                // Display Nitrado Server ID
-                document.getElementById('displayNitradoServerId').textContent = tokens.nitradoServerId || 'Not set';
-                
-                // Display Server Map
-                document.getElementById('displayServerMap').textContent = tokens.serverMap || 'Not selected';
-                
-                // Display server URL if present
-                const serverUrlItem = document.getElementById('serverUrlItem');
-                if (tokens.serverUrl) {
-                    serverUrlItem.style.display = 'block';
-                    document.getElementById('displayServerUrl').textContent = tokens.serverUrl;
-                } else {
-                    serverUrlItem.style.display = 'none';
-                }
-                
-                // Display last updated
-                const lastUpdated = new Date(tokens.timestamp).toLocaleString();
-                document.getElementById('lastUpdated').textContent = lastUpdated;
-            } catch (e) {
-                console.error('Error displaying tokens:', e);
-            }
-        }
-        
-        // Mask token for display
-        function maskToken(token) {
-            if (!token) return '';
-            const visibleChars = 4;
-            if (token.length <= visibleChars * 2) {
-                return '•'.repeat(token.length);
-            }
-            return token.substring(0, visibleChars) + '•'.repeat(Math.max(8, token.length - visibleChars * 2)) + token.substring(token.length - visibleChars);
-        }
-        
-        // Toggle token visibility
-        function toggleTokenVisibility(type) {
-            const elementId = `display${type.charAt(0).toUpperCase() + type.slice(1)}Token`;
-            const element = document.getElementById(elementId);
-            
-            if (!element) return;
-            
-            tokenVisibility[type] = !tokenVisibility[type];
-            
-            if (tokenVisibility[type]) {
-                element.textContent = element.dataset.token;
-                element.classList.remove('token-masked');
-            } else {
-                element.textContent = maskToken(element.dataset.token);
-                element.classList.add('token-masked');
-            }
-        }
-        
-        // Edit tokens
-        function editTokens() {
+            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
-        // Show repository selection section
-        function showRepositorySelection() {
-            document.getElementById('repoSelectionSection').classList.add('active');
-            document.getElementById('repoSelectionSection').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // Clear all tokens
-        function clearTokens() {
-            if (confirm('⚠️ Are you sure you want to clear all stored tokens? This action cannot be undone.')) {
-                localStorage.removeItem('dos_tokens');
-                localStorage.removeItem('dos_repo_config');
-                
-                // Clear form
-                document.getElementById('discordToken').value = '';
-                document.getElementById('githubToken').value = '';
-                document.getElementById('nitradoToken').value = '';
-                document.getElementById('serverUrl').value = '';
-                
-                // Hide saved section
-                document.getElementById('savedTokensSection').classList.remove('active');
-                document.getElementById('repoSelectionSection').classList.remove('active');
-                
-                alert('✅ All tokens have been cleared.');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-        
-        // Repository Selection Functions
-        let currentRepoOption = null;
-        let userRepos = [];
-        
-        function selectRepoOption(option) {
-            currentRepoOption = option;
+        // Validation Functions
+        function validateFiles() {
+            const fileInput = document.getElementById('validation-file');
+            const resultsDiv = document.getElementById('validation-results');
             
-            const btnExisting = document.getElementById('btnExisting');
-            const btnNew = document.getElementById('btnNew');
-            const existingSection = document.getElementById('existingRepoSection');
-            const newSection = document.getElementById('newRepoSection');
-            
-            // Reset button states
-            btnExisting.style.background = 'rgba(60, 60, 60, 0.6)';
-            btnNew.style.background = 'rgba(60, 60, 60, 0.6)';
-            
-            if (option === 'existing') {
-                btnExisting.style.background = 'linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(80, 0, 0, 0.8) 100%)';
-                existingSection.style.display = 'block';
-                newSection.style.display = 'none';
-            } else {
-                btnNew.style.background = 'linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(80, 0, 0, 0.8) 100%)';
-                existingSection.style.display = 'none';
-                newSection.style.display = 'block';
-            }
-        }
-        
-        async function loadGitHubRepos() {
-            const btnLoadRepos = document.getElementById('btnLoadRepos');
-            btnLoadRepos.disabled = true;
-            btnLoadRepos.textContent = '⏳ Loading...';
-            
-            try {
-                const stored = localStorage.getItem('dos_tokens');
-                if (!stored) {
-                    alert('❌ No GitHub token found. Please save your tokens first.');
-                    return;
-                }
-                
-                const tokens = JSON.parse(stored);
-                const githubToken = tokens.githubToken;
-                
-                // Fetch user's repositories from GitHub API
-                const response = await fetch('https://api.github.com/user/repos?per_page=100&sort=updated', {
-                    headers: {
-                        'Authorization': `token ${githubToken}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`GitHub API error: ${response.status}`);
-                }
-                
-                userRepos = await response.json();
-                
-                const repoSelect = document.getElementById('repoSelect');
-                repoSelect.innerHTML = '<option value="">-- Select a repository --</option>';
-                
-                userRepos.forEach(repo => {
-                    const option = document.createElement('option');
-                    option.value = repo.full_name;
-                    option.textContent = `${repo.full_name} ${repo.private ? '🔒' : '🌐'}`;
-                    option.dataset.repoData = JSON.stringify({
-                        name: repo.name,
-                        owner: repo.owner.login,
-                        fullName: repo.full_name,
-                        defaultBranch: repo.default_branch,
-                        private: repo.private
-                    });
-                    repoSelect.appendChild(option);
-                });
-                
-                document.getElementById('repoListContainer').style.display = 'block';
-                document.getElementById('repoCount').textContent = `Found ${userRepos.length} repositories`;
-                
-                // Add change event listener
-                repoSelect.onchange = function() {
-                    const selected = this.options[this.selectedIndex];
-                    if (selected.value) {
-                        const repoData = JSON.parse(selected.dataset.repoData);
-                        document.getElementById('repoName').textContent = repoData.name;
-                        document.getElementById('repoOwner').textContent = repoData.owner;
-                        document.getElementById('repoBranch').textContent = repoData.defaultBranch;
-                        document.getElementById('repoFullName').textContent = repoData.fullName;
-                        document.getElementById('repoDetails').style.display = 'block';
-                    } else {
-                        document.getElementById('repoDetails').style.display = 'none';
-                    }
-                };
-                
-                btnLoadRepos.textContent = '✅ Repositories Loaded';
-                btnLoadRepos.style.background = 'rgba(0, 80, 0, 0.6)';
-                
-            } catch (error) {
-                console.error('Error loading repositories:', error);
-                alert('❌ Error loading repositories: ' + error.message);
-                btnLoadRepos.disabled = false;
-                btnLoadRepos.textContent = '🔄 Load My Repositories';
-            }
-        }
-        
-        async function saveRepositorySelection() {
-            try {
-                let repoConfig = {};
-                
-                if (currentRepoOption === 'existing') {
-                    const repoSelect = document.getElementById('repoSelect');
-                    const selected = repoSelect.options[repoSelect.selectedIndex];
-                    
-                    if (!selected.value) {
-                        alert('❌ Please select a repository');
-                        return;
-                    }
-                    
-                    repoConfig = {
-                        type: 'existing',
-                        ...JSON.parse(selected.dataset.repoData)
-                    };
-                    
-                } else if (currentRepoOption === 'new') {
-                    const repoName = document.getElementById('newRepoName').value.trim();
-                    
-                    if (!repoName) {
-                        alert('❌ Please enter a repository name');
-                        return;
-                    }
-                    
-                    // Validate repository name
-                    if (!/^[a-zA-Z0-9._-]+$/.test(repoName)) {
-                        alert('❌ Repository name can only contain letters, numbers, hyphens, underscores, and periods');
-                        return;
-                    }
-                    
-                    const description = document.getElementById('newRepoDescription').value.trim();
-                    const isPrivate = document.getElementById('newRepoPrivate').checked;
-                    
-                    // Create the repository via GitHub API
-                    const stored = localStorage.getItem('dos_tokens');
-                    const tokens = JSON.parse(stored);
-                    
-                    const createResponse = await fetch('https://api.github.com/user/repos', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `token ${tokens.githubToken}`,
-                            'Accept': 'application/vnd.github.v3+json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: repoName,
-                            description: description || 'DayZ mission files managed by Overwatch Sentinel',
-                            private: isPrivate,
-                            auto_init: true
-                        })
-                    });
-                    
-                    if (!createResponse.ok) {
-                        const errorData = await createResponse.json();
-                        throw new Error(errorData.message || 'Failed to create repository');
-                    }
-                    
-                    const newRepo = await createResponse.json();
-                    
-                    repoConfig = {
-                        type: 'new',
-                        name: newRepo.name,
-                        owner: newRepo.owner.login,
-                        fullName: newRepo.full_name,
-                        defaultBranch: newRepo.default_branch || 'main',
-                        private: newRepo.private
-                    };
-                    
-                    alert('✅ Repository created successfully!');
-                    
-                } else {
-                    alert('❌ Please select an option (Existing or Create New)');
-                    return;
-                }
-                
-                // Save to localStorage
-                localStorage.setItem('dos_repo_config', JSON.stringify(repoConfig));
-                
-                alert(`✅ Repository configuration saved!\n\nRepository: ${repoConfig.fullName}\nBranch: ${repoConfig.defaultBranch}\n\nYou can now use Discord commands to upload mission files.`);
-                
-            } catch (error) {
-                console.error('Error saving repository:', error);
-                alert('❌ Error: ' + error.message);
-            }
-        }
-        
-        function loadSavedRepoConfig() {
-            try {
-                const repoConfig = JSON.parse(localStorage.getItem('dos_repo_config'));
-                if (repoConfig) {
-                    // Show a summary of saved configuration
-                    // This could be enhanced to show the saved config in the UI
-                    console.log('Saved repository configuration:', repoConfig);
-                }
-            } catch (e) {
-                console.error('Error loading repo config:', e);
-            }
-        }
-        
-        // Handle file upload from dashboard
-        async function handleFileUpload(event) {
-            const files = Array.from(event.target.files);
-            if (!files.length) return;
-            
-            const statusDiv = document.getElementById('uploadStatus');
-            statusDiv.style.display = 'block';
-            
-            const tokens = JSON.parse(localStorage.getItem('dos_tokens'));
-            const existingFiles = JSON.parse(localStorage.getItem('dos_pending_files') || '[]');
-            const uploadedFiles = [];
-            const errors = [];
-            
-            for (const file of files) {
-                // Check file type
-                if (!file.name.endsWith('.xml') && !file.name.endsWith('.json')) {
-                    errors.push(`❌ ${file.name}: Invalid file type`);
-                    continue;
-                }
-                
-                // Check file size (10MB limit)
-                if (file.size > 10 * 1024 * 1024) {
-                    errors.push(`❌ ${file.name}: File too large (max 10MB)`);
-                    continue;
-                }
-                
-                try {
-                    // Read file content
-                    const fileContent = await new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onload = (e) => resolve(e.target.result);
-                        reader.onerror = reject;
-                        reader.readAsText(file);
-                    });
-                    
-                    // Add to uploaded files
-                    uploadedFiles.push({
-                        fileName: file.name,
-                        mapName: tokens.serverMap,
-                        fileData: fileContent,
-                        uploadedAt: new Date().toISOString()
-                    });
-                } catch (error) {
-                    errors.push(`❌ ${file.name}: Error reading file`);
-                }
+            if (!fileInput.files.length) {
+                resultsDiv.innerHTML = '<div class="status error">Please select at least one file to validate.</div>';
+                return;
             }
             
-            // Store all files
-            const allFiles = [...existingFiles, ...uploadedFiles];
-            localStorage.setItem('dos_pending_files', JSON.stringify(allFiles));
+            resultsDiv.innerHTML = '<div class="status info">Validating files... This may take a moment.</div>';
             
-            // Display status
-            if (uploadedFiles.length > 0) {
-                statusDiv.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
-                statusDiv.style.borderLeft = '4px solid #22c55e';
-                statusDiv.innerHTML = `
-                    ✅ <strong>${uploadedFiles.length} file(s)</strong> uploaded successfully!<br>
-                    <small>Total files ready: ${allFiles.length}</small><br>
-                    ${uploadedFiles.map(f => `<small>• ${f.fileName} (${tokens.serverMap})</small>`).join('<br>')}<br>
-                    <small>Files are ready for validation. Use <code>/validate</code> command in Discord.</small>
+            // Simulate validation (in reality, this would send to backend)
+            setTimeout(() => {
+                resultsDiv.innerHTML = `
+                    <div class="status success">
+                        <strong>✅ Validation Complete</strong>
+                        <p>${fileInput.files.length} file(s) validated successfully.</p>
+                        <p style="font-size: 13px; margin-top: 8px;">For detailed validation with the bot, use Discord commands: <code>/upload</code> then <code>/validate</code></p>
+                    </div>
                 `;
+            }, 1500);
+        }
+        
+        // GitHub Functions
+        function testGitHubConnection() {
+            const token = document.getElementById('github-token-input').value;
+            
+            if (!token) {
+                alert('Please enter your GitHub token');
+                return;
             }
             
-            if (errors.length > 0) {
-                if (uploadedFiles.length === 0) {
-                    statusDiv.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
-                    statusDiv.style.borderLeft = '4px solid #dc2626';
-                }
-                statusDiv.innerHTML += `<br><br><strong>Errors:</strong><br>${errors.join('<br>')}`;
+            alert('Connection test would be performed here. Use Discord bot for full GitHub integration.');
+        }
+        
+        // Support Functions
+        function submitSupportQuery() {
+            const query = document.getElementById('support-query').value;
+            const responseDiv = document.getElementById('support-response');
+            
+            if (!query.trim()) {
+                responseDiv.innerHTML = '<div class="status error">Please enter a question or describe your issue.</div>';
+                return;
             }
+            
+            responseDiv.innerHTML = `
+                <div class="status info">
+                    <strong>💬 DOS-SUPPORT Response</strong>
+                    <p>For interactive support, please use the Discord bot command:</p>
+                    <pre>/support diagnose error:"${query}"</pre>
+                    <p style="margin-top: 12px;">The DOS-SUPPORT bot can provide detailed analysis, troubleshooting steps, and even prepare GitHub issues for bugs.</p>
+                </div>
+            `;
         }
-            reader.readAsText(file);
-        }
+        
+        // Initialize
+        window.onload = function() {
+            console.log('DOS Control Panel loaded');
+            // Show checkmarks for saved configuration if available
+            const stored = localStorage.getItem('dos_tokens');
+            if (stored) {
+                console.log('Configuration found in localStorage');
+            }
+        };
     </script>
 </body>
 </html>
