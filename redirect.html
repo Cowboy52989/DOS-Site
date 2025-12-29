@@ -1853,7 +1853,180 @@
             if (stored) {
                 console.log('Configuration found in localStorage');
             }
+            
+            // Check for URL parameters (from Discord commands)
+            checkURLParameters();
         };
+        
+        // Check URL parameters for auto-actions
+        function checkURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Check for explain parameter
+            const explainFile = urlParams.get('explain');
+            if (explainFile) {
+                // Auto-open chat with file explanation
+                setTimeout(() => {
+                    toggleChat();
+                    setTimeout(() => {
+                        fetchFileExplanation(decodeURIComponent(explainFile));
+                    }, 500);
+                }, 1000);
+                return;
+            }
+            
+            // Check for diagnose parameter
+            const diagnoseError = urlParams.get('diagnose');
+            if (diagnoseError) {
+                const stackTrace = urlParams.get('stack') || '';
+                // Auto-open chat with error diagnosis
+                setTimeout(() => {
+                    toggleChat();
+                    setTimeout(() => {
+                        fetchErrorDiagnosis(decodeURIComponent(diagnoseError), stackTrace ? decodeURIComponent(stackTrace) : '');
+                    }, 500);
+                }, 1000);
+                return;
+            }
+        }
+        
+        // Fetch file explanation from backend
+        async function fetchFileExplanation(filePath) {
+            showTypingIndicator();
+            
+            try {
+                // Simulate API call - In production, this would call your backend
+                // For now, we'll generate the explanation client-side based on file path
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                hideTypingIndicator();
+                
+                const explanation = generateFileExplanation(filePath);
+                addBotMessage(explanation);
+                
+                // Offer follow-up
+                setTimeout(() => {
+                    addBotMessage("Need more details about this file? Ask me anything!");
+                }, 1000);
+            } catch (error) {
+                hideTypingIndicator();
+                addBotMessage(`❌ Error loading explanation: ${error.message}<br><br>Try asking me about the file manually!`);
+            }
+        }
+        
+        // Fetch error diagnosis from backend
+        async function fetchErrorDiagnosis(errorMessage, stackTrace) {
+            showTypingIndicator();
+            
+            try {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                hideTypingIndicator();
+                
+                const diagnosis = generateErrorDiagnosis(errorMessage, stackTrace);
+                addBotMessage(diagnosis);
+                
+                // Offer follow-up
+                setTimeout(() => {
+                    addBotMessage("Still having trouble? Describe what you've tried and I'll help further!");
+                }, 1000);
+            } catch (error) {
+                hideTypingIndicator();
+                addBotMessage(`❌ Error loading diagnosis: ${error.message}<br><br>Try describing your error manually!`);
+            }
+        }
+        
+        // Generate file explanation based on path
+        function generateFileExplanation(filePath) {
+            let purpose = '';
+            let structure = '';
+            let components = '';
+            
+            const fileName = filePath.split('/').pop();
+            const fileExt = fileName.split('.').pop().toLowerCase();
+            
+            // Determine purpose based on path
+            if (filePath.includes('Commands/')) {
+                purpose = 'This file defines Discord slash commands that users can interact with. It handles command logic, user input validation, and responses.';
+                components = '• Command handlers (SlashCommand attributes)<br>• Input validation and parameter checking<br>• Embed creation for responses<br>• Error handling';
+            } else if (filePath.includes('Services/')) {
+                purpose = 'This file provides core business logic and functionality used by command modules. It encapsulates reusable operations and external integrations.';
+                components = '• Business logic methods<br>• External API integrations<br>• Data processing and validation<br>• Utility functions';
+            } else if (filePath.includes('Models/')) {
+                purpose = 'This file defines data structures and models used throughout the application. It represents how data is organized and stored.';
+                components = '• Class properties and fields<br>• Data validation attributes<br>• Constructor methods<br>• Serialization logic';
+            } else if (fileName === 'Program.cs') {
+                purpose = 'This is the application entry point. It configures services, dependency injection, and starts the Discord bot.';
+                components = '• Service registration<br>• Dependency injection setup<br>• Bot configuration<br>• Gateway intents';
+            } else {
+                purpose = 'This file is part of the DOS Bot system.';
+                components = '• Various functions and utilities';
+            }
+            
+            // Determine structure based on extension
+            if (fileExt === 'cs') {
+                structure = '• C# source file<br>• Contains classes and methods<br>• Uses .NET 8.0 framework<br>• Follows async/await patterns';
+            } else if (fileExt === 'json') {
+                structure = '• JSON configuration or data file<br>• Structured key-value format<br>• Used for settings or examples';
+            } else if (fileExt === 'xml') {
+                structure = '• XML data file<br>• Hierarchical structure<br>• Used for mission files';
+            }
+            
+            return `<strong>📄 File Explanation: ${fileName}</strong><br><br>` +
+                   `<strong>📁 Path:</strong> <code>${filePath}</code><br><br>` +
+                   `<strong>🎯 Purpose:</strong><br>${purpose}<br><br>` +
+                   `<strong>🏗️ Structure:</strong><br>${structure}<br><br>` +
+                   `<strong>🔧 Key Components:</strong><br>${components}`;
+        }
+        
+        // Generate error diagnosis
+        function generateErrorDiagnosis(errorMessage, stackTrace) {
+            let errorType = 'General Error';
+            let meaning = '';
+            let causes = '';
+            let steps = '';
+            
+            const lower = errorMessage.toLowerCase();
+            
+            if (lower.includes('nullreference')) {
+                errorType = 'NullReferenceException';
+                meaning = 'The bot tried to access an object or property that doesn\'t exist or hasn\'t been initialized.';
+                causes = '• Map preference not set<br>• Missing configuration<br>• Service not initialized<br>• Expected data not returned';
+                steps = '1. Run <code>/select-map</code> to set your map<br>2. Verify configuration is saved<br>3. Check required tokens<br>4. Restart the bot';
+            } else if (lower.includes('filenotfound')) {
+                errorType = 'FileNotFoundException';
+                meaning = 'The bot is looking for a file that doesn\'t exist at the specified location.';
+                causes = '• File path is incorrect<br>• File hasn\'t been uploaded<br>• File was deleted or moved<br>• Working directory issue';
+                steps = '1. Check file path spelling<br>2. Verify file was uploaded with <code>/upload</code><br>3. Use <code>/list_files</code> to see files<br>4. Re-upload if needed';
+            } else if (lower.includes('validation')) {
+                errorType = 'Validation Error';
+                meaning = 'The mission file validation failed. The file contains invalid configurations or objects.';
+                causes = '• Invalid classnames<br>• Console-unsafe mods detected<br>• Incorrect object structure<br>• Event/map mismatch';
+                steps = '1. Check validation output for specific errors<br>2. Remove PC-only mods<br>3. Verify JSON/XML syntax<br>4. Ensure event matches map';
+            } else if (lower.includes('json') || lower.includes('xml')) {
+                errorType = 'Parsing Error';
+                meaning = 'The bot couldn\'t parse your file. This usually means syntax errors in the file structure.';
+                causes = '• Trailing commas<br>• Missing brackets or quotes<br>• Invalid characters<br>• Incorrect nesting';
+                steps = '1. Use a JSON/XML validator<br>2. Check for trailing commas<br>3. Verify all brackets match<br>4. Remove special characters';
+            } else {
+                meaning = 'An unexpected error occurred during bot operation.';
+                causes = '• Configuration issue<br>• Network problem<br>• Invalid input<br>• System resource issue';
+                steps = '1. Check bot configuration<br>2. Verify network connection<br>3. Try the operation again<br>4. Contact support if persists';
+            }
+            
+            let diagnosis = `<strong>🔍 Error Diagnosis</strong><br><br>` +
+                           `<strong>❌ Error Type:</strong> ${errorType}<br><br>` +
+                           `<strong>📝 What This Means:</strong><br>${meaning}<br><br>` +
+                           `<strong>🔎 Possible Causes:</strong><br>${causes}<br><br>` +
+                           `<strong>✅ Troubleshooting Steps:</strong><br>${steps}`;
+            
+            if (stackTrace) {
+                diagnosis += `<br><br><strong>📋 Stack Trace Detected:</strong><br>Additional error details were provided. This helps identify the exact location of the error in the code.`;
+            }
+            
+            return diagnosis;
+        }
     </script>
     
     <!-- Chat Widget -->
