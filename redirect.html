@@ -967,7 +967,8 @@
                 
                 <div class="warning-box" style="margin-top: 24px;">
                     <strong>💬 Need Help?</strong>
-                    Click the chat button in the bottom right corner to start a conversation with DOS-SUPPORT!
+                    Click the chat button in the bottom right corner to start a conversation with DOS-SUPPORT!<br>
+                    <em style="font-size: 13px; color: #808080;">Pro Tip: Type <code>/support</code> in any text field to instantly open the chat.</em>
                 </div>
                 
                 <div class="status info" style="margin-top: 32px;">
@@ -1155,8 +1156,8 @@
                 
                 <div class="form-group">
                     <label for="support-query">Ask a Question</label>
-                    <textarea id="support-query" placeholder="Describe your issue or question..."></textarea>
-                    <div class="form-help">DOS-SUPPORT can only answer questions about the DOS Bot system</div>
+                    <textarea id="support-query" placeholder="Describe your issue or question... (or type /support to open live chat)"></textarea>
+                    <div class="form-help">💡 <strong>Pro Tip:</strong> Type <code>/support</code> anywhere on the site to instantly open the live chat widget!</div>
                 </div>
                 
                 <button class="button full-width" onclick="submitSupportQuery()">
@@ -1773,6 +1774,63 @@
                 addBotMessage(response);
             }, 1000 + Math.random() * 1000); // Random delay 1-2 seconds
         }
+        
+        // Global command detection for /support
+        let commandBuffer = '';
+        let commandTimeout;
+        
+        document.addEventListener('keydown', function(e) {
+            // Don't trigger if already in chat or if modifier keys are pressed
+            const chatModal = document.getElementById('chat-modal');
+            const activeElement = document.activeElement;
+            
+            // Allow command in any text input except chat input itself
+            if (activeElement && activeElement.id === 'chat-input') {
+                return;
+            }
+            
+            // Build command buffer
+            if (e.key === '/' || (commandBuffer.length > 0 && e.key.length === 1)) {
+                commandBuffer += e.key.toLowerCase();
+                
+                // Clear buffer after 2 seconds of inactivity
+                clearTimeout(commandTimeout);
+                commandTimeout = setTimeout(() => {
+                    commandBuffer = '';
+                }, 2000);
+                
+                // Check if /support was typed
+                if (commandBuffer === '/support') {
+                    e.preventDefault();
+                    
+                    // Clear the input field if typing in one
+                    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+                        const currentValue = activeElement.value;
+                        // Remove /support from the field
+                        activeElement.value = currentValue.replace('/support', '');
+                    }
+                    
+                    // Open chat if not already open
+                    if (!chatModal.classList.contains('active')) {
+                        toggleChat();
+                    }
+                    
+                    // Clear buffer
+                    commandBuffer = '';
+                    
+                    // Show activation message
+                    setTimeout(() => {
+                        if (chatHistory.length === 1) { // Only welcome message
+                            addBotMessage("You activated me with the <code>/support</code> command! 🎉<br><br>This works anywhere on the site - just type <code>/support</code> in any text field to open this chat instantly.");
+                        }
+                    }, 300);
+                }
+            } else if (e.key === 'Backspace' && commandBuffer.length > 0) {
+                commandBuffer = commandBuffer.slice(0, -1);
+            } else if (e.key === 'Escape' || e.key === 'Enter') {
+                commandBuffer = '';
+            }
+        });
         
         // Chat input event listeners
         document.addEventListener('DOMContentLoaded', function() {
