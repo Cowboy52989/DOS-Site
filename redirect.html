@@ -1421,7 +1421,7 @@
             if (modal.classList.contains('active')) {
                 // Initialize chat if first time
                 if (chatHistory.length === 0) {
-                    addBotMessage("👋 Hello! I'm DOS-SUPPORT, your DayZ mission file assistant. How can I help you today?");
+                    addBotMessage("👋 Hello! I'm DOS-SUPPORT. I can explain everything about the DayZ Overwatch Sentinel Discord bot - its features, commands, and how to use it.<br><br>Try asking: <strong>\"What can the bot do?\"</strong>");
                 }
                 // Focus input
                 document.getElementById('chat-input').focus();
@@ -1485,89 +1485,272 @@
         function getBotResponse(userMessage) {
             const msg = userMessage.toLowerCase();
             
-            // Common questions and responses
-            if (msg.includes('error') || msg.includes('problem') || msg.includes('issue')) {
-                return `I can help diagnose errors! Common issues include:<br><br>
-                    • <strong>Mod conflicts:</strong> Console-only mods detected<br>
-                    • <strong>XML/JSON errors:</strong> Invalid file format<br>
-                    • <strong>Missing files:</strong> Required mission files not found<br><br>
-                    Can you describe the specific error you're seeing?`;
+            // Bot capabilities and features
+            if (msg.includes('what can') || msg.includes('capabilities') || msg.includes('features') || msg.includes('what do') || msg.includes('what does')) {
+                return `<strong>DOS Bot Core Capabilities:</strong><br><br>
+                    🔍 <strong>Mission File Validation</strong> - Validates DayZ mission files for console safety with two-stage validation<br><br>
+                    📁 <strong>GitHub Integration</strong> - Creates pull requests, manages repos, tracks changes automatically<br><br>
+                    🚀 <strong>Nitrado Deployment</strong> - Direct FTP upload to your Nitrado server with backup support<br><br>
+                    🎄 <strong>Event Management</strong> - Apply seasonal decorations (Christmas, Halloween, Easter, New Year)<br><br>
+                    ⚙️ <strong>User Preferences</strong> - Custom honorifics (partner/cowboy/cowgirl) and map selection<br><br>
+                    📋 <strong>File Queue System</strong> - Upload multiple files, manage queue, batch operations<br><br>
+                    Ask me about any specific feature for detailed information!`;
             }
             
+            // Validation deep dive
             if (msg.includes('validate') || msg.includes('validation')) {
-                return `The validation system has two stages:<br><br>
-                    <strong>Stage 1:</strong> Format validation (JSON/XML syntax)<br>
-                    <strong>Stage 2:</strong> Content validation (classnames, console compatibility)<br><br>
-                    Upload your files in the Validation page or use <code>/upload</code> in Discord for detailed reports.`;
+                if (msg.includes('how') || msg.includes('work') || msg.includes('detail') || msg.includes('explain')) {
+                    return `<strong>DOS Bot Validation System - Detailed:</strong><br><br>
+                        <strong>📝 Stage 1: Format Validation</strong><br>
+                        • Parses JSON/XML files for syntax errors<br>
+                        • Identifies missing brackets, trailing commas, invalid characters<br>
+                        • Verifies file structure matches DayZ mission format<br>
+                        • Reports exact line numbers for errors<br><br>
+                        <strong>🔍 Stage 2: Content Validation</strong><br>
+                        • Validates classnames against DOS database<br>
+                        • Checks console-safe restrictions (no PC-only mods)<br>
+                        • Categories: Structures, Vehicles, Items, Weapons, Infected<br>
+                        • Verifies event decorations match selected map<br>
+                        • Limits results to 100 items to prevent overload<br><br>
+                        <strong>Discord Commands:</strong><br>
+                        <code>/upload</code> - Upload mission files<br>
+                        <code>/validate</code> - Run validation<br>
+                        <code>/list_files</code> - View pending files`;
+                } else {
+                    return `DOS Bot validates mission files to ensure console safety.<br><br>
+                        <strong>Two-Stage Process:</strong><br>
+                        • Stage 1: Format validation (JSON/XML syntax)<br>
+                        • Stage 2: Content validation (classnames, compatibility)<br><br>
+                        Use <code>/upload</code> then <code>/validate</code> in Discord.<br><br>
+                        Ask "how does validation work" for detailed info.`;
+                }
             }
             
-            if (msg.includes('github') || msg.includes('pull request') || msg.includes('pr')) {
-                return `GitHub integration allows you to:<br><br>
-                    • Create pull requests automatically<br>
-                    • Manage mission file repositories<br>
-                    • Track changes and updates<br><br>
-                    Configure your GitHub token in the Configuration page. Use <code>/submit_pr</code> in Discord to create PRs.`;
+            // GitHub integration deep dive
+            if (msg.includes('github') || msg.includes('pull request') || msg.includes('pr') || msg.includes('repository')) {
+                if (msg.includes('how') || msg.includes('work') || msg.includes('detail') || msg.includes('explain')) {
+                    return `<strong>DOS Bot GitHub Integration - Detailed:</strong><br><br>
+                        <strong>📁 Repository Management:</strong><br>
+                        • Connect your GitHub account via personal access token<br>
+                        • Select target repository for mission files<br>
+                        • Automatic branch creation with naming convention:<br>
+                        &nbsp;&nbsp;<code>mission-update-{username}-{timestamp}</code><br><br>
+                        <strong>🔀 Pull Request Workflow:</strong><br>
+                        1. Bot creates new branch from main<br>
+                        2. Uploads validated files to <code>missions/{MapName}/</code><br>
+                        3. Creates PR with validation summary<br>
+                        4. Includes file changes, error reports, statistics<br>
+                        5. PR ready for team review<br><br>
+                        <strong>Requirements:</strong><br>
+                        • GitHub token with <code>repo</code> scope<br>
+                        • Valid mission files uploaded<br>
+                        • Map selection configured<br><br>
+                        <strong>Discord Command:</strong><br>
+                        <code>/submit_pr owner:username repo:reponame base:main</code>`;
+                } else {
+                    return `DOS Bot automates GitHub pull request creation for mission files.<br><br>
+                        <strong>Features:</strong><br>
+                        • Automatic branch creation<br>
+                        • PR with validation summary<br>
+                        • Files uploaded to proper directory<br><br>
+                        Use <code>/submit_pr</code> in Discord after uploading files.<br><br>
+                        Ask "how does GitHub integration work" for details.`;
+                }
             }
             
-            if (msg.includes('nitrado') || msg.includes('deploy') || msg.includes('server')) {
-                return `Nitrado deployment features:<br><br>
-                    • Direct server file uploads<br>
-                    • Server status monitoring<br>
-                    • Automatic backups<br><br>
-                    Visit the Nitrado page to set up your server ID and token.`;
+            // Nitrado deployment deep dive
+            if (msg.includes('nitrado') || msg.includes('deploy') || msg.includes('server') || msg.includes('ftp')) {
+                if (msg.includes('how') || msg.includes('work') || msg.includes('detail') || msg.includes('explain')) {
+                    return `<strong>DOS Bot Nitrado Deployment - Detailed:</strong><br><br>
+                        <strong>🚀 Direct Server Upload:</strong><br>
+                        • Connect to Nitrado via FTP credentials<br>
+                        • Upload mission files directly to server directories<br>
+                        • Automatic backup before deployment<br>
+                        • Real-time progress tracking<br><br>
+                        <strong>🔐 Setup Requirements:</strong><br>
+                        • Nitrado Server ID (found in Nitrado panel)<br>
+                        • FTP credentials (auto-generated by Nitrado)<br>
+                        • Valid mission files validated by DOS<br><br>
+                        <strong>📂 Deployment Process:</strong><br>
+                        1. Bot connects to your Nitrado server<br>
+                        2. Creates backup of existing files<br>
+                        3. Uploads new mission files<br>
+                        4. Verifies upload completion<br>
+                        5. Confirms deployment success<br><br>
+                        <strong>Discord Command:</strong><br>
+                        <code>/deploy server_id:123456</code><br><br>
+                        <em>Note: Feature in development, coming soon!</em>`;
+                } else {
+                    return `DOS Bot can deploy validated files directly to your Nitrado server.<br><br>
+                        <strong>Features:</strong><br>
+                        • Direct FTP upload<br>
+                        • Automatic backups<br>
+                        • Progress tracking<br><br>
+                        Configure Nitrado settings in Configuration page.<br><br>
+                        Ask "how does Nitrado deployment work" for details.<br>
+                        <em>(Feature coming soon)</em>`;
+                }
             }
             
-            if (msg.includes('token') || msg.includes('config') || msg.includes('setup')) {
-                return `To configure DOS Bot, you'll need:<br><br>
-                    • <strong>Discord Token:</strong> Bot authentication<br>
-                    • <strong>GitHub Token:</strong> Repository access (optional)<br>
-                    • <strong>Nitrado Token:</strong> Server management (optional)<br><br>
-                    Head to the Configuration page to set these up. Tokens are stored locally in your browser.`;
+            // Event management deep dive
+            if (msg.includes('event') || msg.includes('decoration') || msg.includes('christmas') || msg.includes('halloween') || msg.includes('easter') || msg.includes('new year')) {
+                if (msg.includes('how') || msg.includes('work') || msg.includes('detail') || msg.includes('explain')) {
+                    return `<strong>DOS Bot Event Management - Detailed:</strong><br><br>
+                        <strong>🎄 Available Events:</strong><br>
+                        • <strong>Christmas:</strong> Holiday trees, lights, gifts<br>
+                        • <strong>Halloween:</strong> Pumpkins, spooky decorations<br>
+                        • <strong>Easter:</strong> Eggs, spring decorations<br>
+                        • <strong>New Year:</strong> Fireworks, celebration items<br><br>
+                        <strong>📍 How It Works:</strong><br>
+                        1. Select event type (Christmas, Halloween, etc.)<br>
+                        2. Choose target map (Chernarus, Livonia, Sakhal)<br>
+                        3. Bot adds event-appropriate items to mission file<br>
+                        4. Items placed at strategic locations<br>
+                        5. Fully console-safe decorations only<br><br>
+                        <strong>🎯 Features:</strong><br>
+                        • Map-specific event placement<br>
+                        • Console-safe items only<br>
+                        • Easy removal with clear command<br>
+                        • Preserved existing mission content<br><br>
+                        <strong>Discord Commands:</strong><br>
+                        <code>/apply_event event:Christmas</code><br>
+                        <code>/clear_event</code>`;
+                } else {
+                    return `DOS Bot can apply seasonal decorations to your mission files.<br><br>
+                        <strong>Events Available:</strong><br>
+                        🎄 Christmas | 🎃 Halloween | 🐰 Easter | 🎆 New Year<br><br>
+                        Use <code>/apply_event</code> and <code>/clear_event</code> in Discord.<br><br>
+                        Ask "how do events work" for detailed information.`;
+                }
             }
             
+            // File management
+            if (msg.includes('upload') || msg.includes('file') || msg.includes('queue')) {
+                return `<strong>DOS Bot File Queue System:</strong><br><br>
+                    📤 <strong>/upload</strong> - Upload mission files (JSON/XML)<br>
+                    &nbsp;&nbsp;• Supports multiple files at once<br>
+                    &nbsp;&nbsp;• Stores in user-specific queue<br>
+                    &nbsp;&nbsp;• Maintains upload order<br><br>
+                    📋 <strong>/list_files</strong> - View pending files<br>
+                    &nbsp;&nbsp;• Shows all files in your queue<br>
+                    &nbsp;&nbsp;• Displays file names and status<br><br>
+                    🗑️ <strong>/clear_files</strong> - Clear file queue<br>
+                    &nbsp;&nbsp;• Removes all pending files<br>
+                    &nbsp;&nbsp;• Fresh start for new uploads<br><br>
+                    Files stay in queue until validated or cleared.`;
+            }
+            
+            // Commands overview
+            if (msg.includes('command') || msg.includes('slash') || msg.includes('/')) {
+                return `<strong>DOS Bot Discord Commands:</strong><br><br>
+                    <strong>⚙️ Setup:</strong><br>
+                    <code>/setgender</code> - Set honorific (partner/cowboy/cowgirl)<br>
+                    <code>/select-map</code> - Choose map (Chernarus/Livonia/Sakhal)<br><br>
+                    <strong>📁 Files:</strong><br>
+                    <code>/upload</code> - Upload mission files<br>
+                    <code>/validate</code> - Validate uploaded files<br>
+                    <code>/list_files</code> - View file queue<br>
+                    <code>/clear_files</code> - Clear queue<br><br>
+                    <strong>🔀 Integration:</strong><br>
+                    <code>/submit_pr</code> - Create GitHub PR<br>
+                    <code>/deploy</code> - Deploy to Nitrado<br><br>
+                    <strong>🎄 Events:</strong><br>
+                    <code>/apply_event</code> - Add decorations<br>
+                    <code>/clear_event</code> - Remove decorations<br><br>
+                    Ask about any specific command for more info!`;
+            }
+            
+            // Maps
             if (msg.includes('map') || msg.includes('chernarus') || msg.includes('livonia') || msg.includes('sakhal')) {
-                return `DOS Bot supports three console maps:<br><br>
-                    • <strong>Chernarus:</strong> Default DayZ map<br>
-                    • <strong>Livonia:</strong> Dense forests and fields<br>
-                    • <strong>Sakhal:</strong> Snow and tundra<br><br>
-                    These are console-only maps with no mod support.`;
+                return `<strong>DOS Bot Supported Maps:</strong><br><br>
+                    🗺️ <strong>Chernarus</strong> - Default DayZ map, post-Soviet landscape<br>
+                    🌲 <strong>Livonia</strong> - Dense forests and agricultural areas<br>
+                    ❄️ <strong>Sakhal</strong> - Arctic survival, snow and tundra<br><br>
+                    <strong>Console-Only Restriction:</strong><br>
+                    These are official console maps. Modded maps are not supported due to console limitations.<br><br>
+                    Use <code>/select-map</code> in Discord to set your map preference.`;
             }
             
-            if (msg.includes('event') || msg.includes('decoration') || msg.includes('christmas') || msg.includes('halloween')) {
-                return `Event decorations available:<br><br>
-                    🎄 <strong>Christmas:</strong> Holiday themed items<br>
-                    🎃 <strong>Halloween:</strong> Spooky decorations<br>
-                    🐰 <strong>Easter:</strong> Spring themed items<br>
-                    🎆 <strong>New Year:</strong> Celebration items<br><br>
-                    Use <code>/event</code> commands in Discord to manage decorations.`;
+            // Configuration
+            if (msg.includes('token') || msg.includes('config') || msg.includes('setup')) {
+                return `<strong>DOS Bot Configuration:</strong><br><br>
+                    <strong>Required Tokens:</strong><br>
+                    🔐 <strong>Discord Bot Token:</strong> Bot authentication<br>
+                    &nbsp;&nbsp;• Create at Discord Developer Portal<br>
+                    &nbsp;&nbsp;• Required for bot operation<br><br>
+                    <strong>Optional Tokens:</strong><br>
+                    🔑 <strong>GitHub Token:</strong> Repository access<br>
+                    &nbsp;&nbsp;• Needs <code>repo</code> scope<br>
+                    &nbsp;&nbsp;• For PR submission<br><br>
+                    🌐 <strong>Nitrado Credentials:</strong> Server management<br>
+                    &nbsp;&nbsp;• Server ID + FTP access<br>
+                    &nbsp;&nbsp;• For deployment feature<br><br>
+                    Configure in the Configuration page. All tokens stored locally in your browser.`;
             }
             
-            if (msg.includes('help') || msg.includes('commands') || msg.includes('how')) {
-                return `I can assist with:<br><br>
-                    • Mission file validation<br>
-                    • GitHub integration setup<br>
-                    • Nitrado deployment<br>
-                    • Error troubleshooting<br>
-                    • Bot configuration<br>
-                    • Event decorations<br><br>
-                    What would you like to know more about?`;
+            // Error troubleshooting
+            if (msg.includes('error') || msg.includes('problem') || msg.includes('issue') || msg.includes('fix')) {
+                return `<strong>Common DOS Bot Issues & Solutions:</strong><br><br>
+                    ❌ <strong>NullReferenceException:</strong><br>
+                    • Run <code>/select-map</code> to set map preference<br><br>
+                    ❌ <strong>Validation Failures:</strong><br>
+                    • Check JSON/XML syntax (brackets, commas)<br>
+                    • Verify classnames are console-safe<br>
+                    • Remove PC-only mods<br><br>
+                    ❌ <strong>GitHub PR Failed:</strong><br>
+                    • Verify token has <code>repo</code> scope<br>
+                    • Check repository access permissions<br>
+                    • Ensure files are validated first<br><br>
+                    ❌ <strong>File Upload Issues:</strong><br>
+                    • Only JSON/XML files supported<br>
+                    • Maximum file size limits apply<br>
+                    • Use <code>/clear_files</code> to reset queue<br><br>
+                    Describe your specific error for targeted help!`;
             }
             
-            if (msg.includes('thanks') || msg.includes('thank')) {
-                return `You're welcome! Let me know if you need anything else. 😊`;
+            // General help
+            if (msg.includes('help') || msg.includes('how')) {
+                return `<strong>How Can I Help You?</strong><br><br>
+                    I can explain any DOS Bot feature in detail:<br><br>
+                    🔍 Validation System<br>
+                    📁 GitHub Integration<br>
+                    🚀 Nitrado Deployment<br>
+                    🎄 Event Management<br>
+                    📋 File Queue System<br>
+                    ⚙️ Configuration Setup<br>
+                    🗺️ Console Maps<br>
+                    📝 Discord Commands<br><br>
+                    Ask about any feature, or try:<br>
+                    • "What can the bot do?"<br>
+                    • "How does validation work?"<br>
+                    • "Explain GitHub integration"<br>
+                    • "Show me commands"`;
             }
             
+            // Greetings
             if (msg.includes('hi') || msg.includes('hello') || msg.includes('hey')) {
-                return `Hello! 👋 How can I assist you with your DayZ mission files today?`;
+                return `Hello! 👋 I'm here to explain everything about the DayZ Overwatch Sentinel bot.<br><br>
+                    Try asking:<br>
+                    • "What can the bot do?"<br>
+                    • "Show me commands"<br>
+                    • "How does validation work?"<br><br>
+                    What would you like to know?`;
+            }
+            
+            // Thanks
+            if (msg.includes('thanks') || msg.includes('thank')) {
+                return `You're welcome! Feel free to ask about any DOS Bot feature anytime. 😊`;
             }
             
             // Default response
-            return `I'm here to help with DayZ Overwatch Sentinel! I can assist with:<br><br>
-                • File validation and error diagnosis<br>
-                • GitHub and Nitrado integration<br>
+            return `I'm here to explain all DOS Bot capabilities!<br><br>
+                Ask me about:<br>
+                • Bot features and what it can do<br>
+                • How specific features work<br>
+                • Discord commands<br>
                 • Configuration and setup<br>
-                • Event decorations<br><br>
-                Try asking about validation, GitHub, Nitrado, errors, or use <code>/support help</code> in Discord for more options.`;
+                • Troubleshooting errors<br><br>
+                Try: "What can the bot do?" or "Show me commands"`;
         }
         
         function sendChatMessage() {
