@@ -700,15 +700,15 @@
                         <p>Deploy files to your Nitrado server</p>
                     </div>
                     
-                    <div class="grid-item" onclick="showPage('support')">
-                        <h3>💬 Support</h3>
-                        <p>Get help and troubleshoot issues</p>
-                    </div>
-                    
                     <div class="grid-item" onclick="showPage('documentation')">
                         <h3>📚 Documentation</h3>
                         <p>Read comprehensive guides and tutorials</p>
                     </div>
+                </div>
+                
+                <div class="warning-box" style="margin-top: 24px;">
+                    <strong>💬 Need Help?</strong>
+                    Click the chat button in the bottom right corner to start a conversation with DOS-SUPPORT!
                 </div>
                 
                 <div class="status info" style="margin-top: 32px;">
@@ -1148,6 +1148,203 @@
             `;
         }
         
+        // Chat Widget Functions
+        let chatHistory = [];
+        let isTyping = false;
+        
+        function toggleChat() {
+            const modal = document.getElementById('chat-modal');
+            const button = document.getElementById('chat-button');
+            
+            modal.classList.toggle('active');
+            button.classList.toggle('active');
+            
+            if (modal.classList.contains('active')) {
+                // Initialize chat if first time
+                if (chatHistory.length === 0) {
+                    addBotMessage("👋 Hello! I'm DOS-SUPPORT, your DayZ mission file assistant. How can I help you today?");
+                }
+                // Focus input
+                document.getElementById('chat-input').focus();
+            }
+        }
+        
+        function addMessage(content, isUser = false) {
+            const chatBody = document.getElementById('chat-body');
+            const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.innerHTML = `
+                <div class="chat-avatar">${isUser ? '👤' : '🤖'}</div>
+                <div>
+                    <div class="chat-bubble">${content}</div>
+                    <div class="chat-timestamp">${timestamp}</div>
+                </div>
+            `;
+            
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+            
+            chatHistory.push({ content, isUser, timestamp });
+        }
+        
+        function addBotMessage(content) {
+            addMessage(content, false);
+        }
+        
+        function addUserMessage(content) {
+            addMessage(content, true);
+        }
+        
+        function showTypingIndicator() {
+            const chatBody = document.getElementById('chat-body');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message bot';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-bubble typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            chatBody.appendChild(typingDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+            isTyping = true;
+        }
+        
+        function hideTypingIndicator() {
+            const typingDiv = document.getElementById('typing-indicator');
+            if (typingDiv) {
+                typingDiv.remove();
+            }
+            isTyping = false;
+        }
+        
+        function getBotResponse(userMessage) {
+            const msg = userMessage.toLowerCase();
+            
+            // Common questions and responses
+            if (msg.includes('error') || msg.includes('problem') || msg.includes('issue')) {
+                return `I can help diagnose errors! Common issues include:<br><br>
+                    • <strong>Mod conflicts:</strong> Console-only mods detected<br>
+                    • <strong>XML/JSON errors:</strong> Invalid file format<br>
+                    • <strong>Missing files:</strong> Required mission files not found<br><br>
+                    Can you describe the specific error you're seeing?`;
+            }
+            
+            if (msg.includes('validate') || msg.includes('validation')) {
+                return `The validation system has two stages:<br><br>
+                    <strong>Stage 1:</strong> Format validation (JSON/XML syntax)<br>
+                    <strong>Stage 2:</strong> Content validation (classnames, console compatibility)<br><br>
+                    Upload your files in the Validation page or use <code>/upload</code> in Discord for detailed reports.`;
+            }
+            
+            if (msg.includes('github') || msg.includes('pull request') || msg.includes('pr')) {
+                return `GitHub integration allows you to:<br><br>
+                    • Create pull requests automatically<br>
+                    • Manage mission file repositories<br>
+                    • Track changes and updates<br><br>
+                    Configure your GitHub token in the Configuration page. Use <code>/submit_pr</code> in Discord to create PRs.`;
+            }
+            
+            if (msg.includes('nitrado') || msg.includes('deploy') || msg.includes('server')) {
+                return `Nitrado deployment features:<br><br>
+                    • Direct server file uploads<br>
+                    • Server status monitoring<br>
+                    • Automatic backups<br><br>
+                    Visit the Nitrado page to set up your server ID and token.`;
+            }
+            
+            if (msg.includes('token') || msg.includes('config') || msg.includes('setup')) {
+                return `To configure DOS Bot, you'll need:<br><br>
+                    • <strong>Discord Token:</strong> Bot authentication<br>
+                    • <strong>GitHub Token:</strong> Repository access (optional)<br>
+                    • <strong>Nitrado Token:</strong> Server management (optional)<br><br>
+                    Head to the Configuration page to set these up. Tokens are stored locally in your browser.`;
+            }
+            
+            if (msg.includes('map') || msg.includes('chernarus') || msg.includes('livonia') || msg.includes('sakhal')) {
+                return `DOS Bot supports three console maps:<br><br>
+                    • <strong>Chernarus:</strong> Default DayZ map<br>
+                    • <strong>Livonia:</strong> Dense forests and fields<br>
+                    • <strong>Sakhal:</strong> Snow and tundra<br><br>
+                    These are console-only maps with no mod support.`;
+            }
+            
+            if (msg.includes('event') || msg.includes('decoration') || msg.includes('christmas') || msg.includes('halloween')) {
+                return `Event decorations available:<br><br>
+                    🎄 <strong>Christmas:</strong> Holiday themed items<br>
+                    🎃 <strong>Halloween:</strong> Spooky decorations<br>
+                    🐰 <strong>Easter:</strong> Spring themed items<br>
+                    🎆 <strong>New Year:</strong> Celebration items<br><br>
+                    Use <code>/event</code> commands in Discord to manage decorations.`;
+            }
+            
+            if (msg.includes('help') || msg.includes('commands') || msg.includes('how')) {
+                return `I can assist with:<br><br>
+                    • Mission file validation<br>
+                    • GitHub integration setup<br>
+                    • Nitrado deployment<br>
+                    • Error troubleshooting<br>
+                    • Bot configuration<br>
+                    • Event decorations<br><br>
+                    What would you like to know more about?`;
+            }
+            
+            if (msg.includes('thanks') || msg.includes('thank')) {
+                return `You're welcome! Let me know if you need anything else. 😊`;
+            }
+            
+            if (msg.includes('hi') || msg.includes('hello') || msg.includes('hey')) {
+                return `Hello! 👋 How can I assist you with your DayZ mission files today?`;
+            }
+            
+            // Default response
+            return `I'm here to help with DayZ Overwatch Sentinel! I can assist with:<br><br>
+                • File validation and error diagnosis<br>
+                • GitHub and Nitrado integration<br>
+                • Configuration and setup<br>
+                • Event decorations<br><br>
+                Try asking about validation, GitHub, Nitrado, errors, or use <code>/support help</code> in Discord for more options.`;
+        }
+        
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (!message || isTyping) return;
+            
+            // Add user message
+            addUserMessage(message);
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate bot response delay
+            setTimeout(() => {
+                hideTypingIndicator();
+                const response = getBotResponse(message);
+                addBotMessage(response);
+            }, 1000 + Math.random() * 1000); // Random delay 1-2 seconds
+        }
+        
+        // Chat input event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatInput = document.getElementById('chat-input');
+            if (chatInput) {
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendChatMessage();
+                    }
+                });
+            }
+        });
+        
         // Initialize
         window.onload = function() {
             console.log('DOS Control Panel loaded');
@@ -1158,5 +1355,36 @@
             }
         };
     </script>
+    
+    <!-- Chat Widget -->
+    <div id="chat-button" class="chat-button" onclick="toggleChat()">
+        💬
+    </div>
+    
+    <div id="chat-modal" class="chat-modal">
+        <div class="chat-header">
+            <div>
+                <h3>DOS-SUPPORT</h3>
+                <div class="chat-status">AI Assistant Online</div>
+            </div>
+        </div>
+        
+        <div id="chat-body" class="chat-body">
+            <!-- Messages will be added here dynamically -->
+        </div>
+        
+        <div class="chat-footer">
+            <div class="chat-input-container">
+                <input 
+                    type="text" 
+                    id="chat-input" 
+                    class="chat-input" 
+                    placeholder="Ask me anything about DOS Bot..."
+                    autocomplete="off"
+                >
+                <button class="chat-send-btn" onclick="sendChatMessage()">➤</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
